@@ -1,0 +1,42 @@
+{
+  "issue": 2082,
+  "pr": 2209,
+  "repo": "alex-foster-personal/music-dj-tools",
+  "head_sha": "87f4b703abbd4fc817012676331af8fc8b21b74e",
+  "base_sha_merge_base_main": "60e261773d6c5215c8d3decbd7125b45c50b2990",
+  "before_sha_main": "b432aa79b (main at the time, GET-only audio route)",
+  "captured_utc": "2026-09-12T03:37:12Z",
+  "clean_worktree": "git status --porcelain shows only ' D data/state/stems/CLAUDE.md' (local data/state symlink to the live library; no source changes)",
+  "checkout_path": "../music-dj-tools-wt-audio-head (branch af--audio-route-head-probe)",
+  "startup": {
+    "backend": ".venv/bin/python -m apps.webui.server --host 127.0.0.1 (port 8701, MDT data dir = live library via data/state symlink)",
+    "frontend": "pnpm exec vite dev --host 127.0.0.1 (port 9421)"
+  },
+  "captured_urls": {
+    "track": "http://localhost:9421/track/acc2ae27e7360a4447b965f0f8e2237d45ee374a",
+    "performance": "http://localhost:9421/performance"
+  },
+  "fixture": {
+    "track": "Unholy - Sam Smith, stable_id acc2ae27e7360a4447b965f0f8e2237d45ee374a",
+    "corpus": "e2e-2082",
+    "pipeline": "python -m apps.lyrics batch run --tracks e2e-2082-tracks.json --corpus e2e-2082 --live (log: 2082-batch-run.log)",
+    "verdict_api": "/api/v1/tracks/{sid}/lyrics/words returned verdict + 297 words"
+  },
+  "demonstrated_actions": [
+    "before: open /track/{sid} on main b432aa79b -> LyricsPanel HEAD probe gets 405, playability notice shown",
+    "after: same route at head -> audio player, no notice",
+    "word lane: /performance, opendj CLI over the live bus: load 1 {sid}; seek 1 24000; play 1 -> deck 1 playing, 34 .lane-word spans on the top waveform, deck lyric line shown"
+  ],
+  "viewport": "1280x800",
+  "capture_tool": "@playwright/test 1.61.1 headless chromium, page.screenshot",
+  "limitations": [
+    "first bus-driven deck load after a fresh page open fails with 'Signalsmith processor creation timed out after 15000ms'; the retry succeeds (filed separately)",
+    "track page before/after captured via the same script on main and head; word lane captured on head only"
+  ],
+  "sha256": {
+    "2082-before-track-b432aa79b.png": "44fac738bc8b600b3f4e41f63f5cbb8180f94f791e34f0ec13ad1815e5b37a11",
+    "2082-after-track-87f4b703.png": "50fb8f764919316b90e36f6e2877581a449c0ad9b7634308782a000ccf158b1e",
+    "2082-wordlane-87f4b703.png": "7e5f9044b1614424a09fb31109700dcf03255be481428964fbce643f2874c344",
+    "2082-batch-run.log": "6102f23185112f377f9300319accdde1548ee08003ebe3361f660c70e5dd5844"
+  }
+}
