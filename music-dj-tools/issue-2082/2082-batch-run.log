@@ -1,0 +1,60 @@
+2026-09-12T03:09:31Z start live batch e2e-2082
+[OK] /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/tracks.json rewritten -- join tiers: {'exact': 1} (denominator: 1 e2e-2082 rows)
+[OK] config_tag=mel-band-roformer-ov8-seg256 tracks=1 run_id=20260912T040932-14697
+[ok n=4] 1/1 Sam Smith & Kim Petras - Unholy  key=76737c4929456e40
+[DONE] 1 with candidates, 0 instrumental-declared, 0 explicit zero-candidate, 0 already present -> /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/candidates (denominator: 1 e2e-2082 tracks)
+[miss] 1/1 Sam Smith & Kim Petras - Unholy
+[DONE] musixmatch: 0 full texts, 0 instrumental-flagged, 1 miss-or-empty, 0 already in ledger, 0 unresolvable (denominator: 1 e2e-2082 tracks) -> next: uv run --no-sync python -m apps.lyrics.sources merge-musixmatch
+[DONE] musixmatch merge: 0 candidates added, 0 instrumental-evidence entries, 463 already merged, 2 found-but-no-text-file
+[miss] 1/1 Sam Smith & Kim Petras - Unholy (no variants applicable)
+[DONE] musixmatch-relaxed: 0 recovered, 1 still missing, 0 skipped (found/instrumental/never-queried) (denominator: 1 e2e-2082 tracks)
+[miss] 1/1 Sam Smith & Kim Petras - Unholy (search 'Unholy': 10 entries, none passed gates)
+[DONE] musixmatch-search: 0 recovered, 1 still missing, 0 skipped (denominator: 1 e2e-2082 tracks)
+Downloading lingua-language-detector (164.5MiB)
+ Downloaded lingua-language-detector
+Installed 1 package in 2ms
+  e2e-2082000 decided    eng  1.000  Sam Smith & Kim Petras - Unholy
+[OK] /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/language.json -- {'decided': 1} (denominator: 1 e2e-2082 tracks)
+[OK] e2e-2082000.mp3 -> e2e-2082000-vocals.mp3, e2e-2082000-instrumental.mp3 (codec=mp3, mp3_settings={'vocals': 'lame_v0_vbr', 'instrumental': 'lame_v0_vbr'}, mp3_rung={'vocals': 1, 'instrumental': 1}, source_kbps=259.11, gpu_s=37.88, usd=0.041554)
+Installed 5 packages in 50ms
+[..] 1/1 stems
+[OK] /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/vocal-presence.json -- 1 tracks (denominator: 1 stem bundles in /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/stems)
+[OK] 1 ASR jobs (1 language-pinned, 0 und/auto) -> /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/asr-jobs.json
+     excluded (no stem): 0 of 1 e2e-2082 tracks
+[OK] 1/1 e2e-2082000: 296 asr words (en p=1.00) in 11.3s gpu
+[DONE] transcribed 1, failed 0, wall 31s -> /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/asr-pin
+[..] witness transcripts: /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/asr-pin
+  track_id cand                    match ver_sim   dur_d screen     artist - title
+----------------------------------------------------------------------------------
+e2e-2082000 lrclib-exact-get-0        68%    0.68     +0s plausible  Sam Smith & Kim Petr - Unholy
+e2e-2082000 lrclib-search-1           68%    0.68     +0s plausible  Sam Smith & Kim Petr - Unholy
+e2e-2082000 lrclib-search-2           68%    0.68     +0s plausible  Sam Smith & Kim Petr - Unholy
+e2e-2082000 lrclib-search-3           68%    0.68     +0s plausible  Sam Smith & Kim Petr - Unholy
+[OK] 4 candidate scores across 1 candidate-backed tracks with ASR; 1 tracks have >=1 plausible candidate -> /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/version-screen.json
+  e2e-2082000 decided    eng  1.000  Sam Smith & Kim Petras - Unholy
+[OK] /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/language.json -- {'decided': 1} (denominator: 1 e2e-2082 tracks)
+[job ] e2e-2082000 aligns lrclib-exact-get-0 (screened-best lrclib-exact-get-0)
+[OK] 1 alignment jobs -> /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/jobs.json
+     excluded (undecided/no-text language, or no stem): 0 of 1 tracks
+[OK] 1/1 e2e-2082000: 297 words in 3.8s gpu
+[DONE] aligned 1, failed 0, missing-stem 0, wall 33s -> /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/pred
+[OK] /Users/dev/code/music-dj-tools-wt-trunk-busparity/scripts/bench/lyrics_e2e-2082_manifest.json (0.04 MB)
+     1 tracks, 297 words, run pred, witness asr-pin
+     pooled mean word score -1.473, 5.1% of words below -5.0
+     pooled witness-red 11.1% of words (matched beyond 1.0s, or unmatched runs of 5+)
+     most suspicious: Sam Smith & Kim Petras - Unholy witness-red 11.1%
+     0 track(s) whose LRCLIB duration differs from the file by more than 5.0s (likely a different version/edit)
+[NOTE] no ground truth exists for this corpus, so this manifest carries NO error metric
+[batch] corpus: staged 1 rows -> /Users/dev/code/music-dj-tools-wt-trunk-busparity/data/state/lyrics-eval/e2e-2082/tracks.json
+[batch] stems: separating 1 track(s) on Modal
+[batch] candidates: MUSIXMATCH_API_KEY present - running the licensed tiers (strict, merge, relaxed, search)
+[batch] register: 1 new bundle(s), 0 already canonical
+[batch] asr: 1/1 stemmed tracks transcribed (language-pinned, vad_filter off)
+[batch] align: 1 job(s) on Modal MMS
+[batch] [OK] 1 tracks matched to state.db, 1 ingested, 297 words written (denominator: 1 tracks in lyrics_e2e-2082_manifest.json)
+[batch] ingest: +1 lyric_verdict rows (denominator: 1 aligned)
+[batch] ledger: NOT appended (a human/agent stamps snapshots). Exact command:
+  uv run scripts/bench/lyrics_kpi_append.py --label e2e-2082 --provenance measured --note 'batch driver e2e-2082' --set library_lyric_tracks=507
+  (add --set library_lyric_playable=<N> only from a fresh HEAD /audio probe of the live daemon - honest-denominators rule)
+[batch] batch e2e-2082: 1 staged, aligned 1, ingested 1, excluded 0 (denominator: 1 requested tracks)
+2026-09-12T03:11:35Z exit=0
