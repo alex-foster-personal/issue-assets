@@ -1,0 +1,41 @@
+[WebServer] auto-analyze: MUSIC_DJ_AUTO_ANALYZE is on but the 'librosa' backend is not installed here (needs librosa, scipy), so every drain would fail with BackendNotAvailable and the reconcile loop is NOT armed. Install the analysis extra (music-dj-tools[analysis]) to enable analyze-on-import.
+[WebServer] /Users/alex/code/music-dj-tools-wt-pr3549/.venv/lib/python3.11/site-packages/websockets/legacy/__init__.py:6: DeprecationWarning: websockets.legacy is deprecated; see https://websockets.readthedocs.io/en/stable/howto/upgrade.html for upgrade instructions
+[WebServer]   warnings.warn(  # deprecated in 14.0 - 2024-11-09
+[WebServer] /Users/alex/code/music-dj-tools-wt-pr3549/.venv/lib/python3.11/site-packages/uvicorn/protocols/websockets/websockets_impl.py:17: DeprecationWarning: websockets.server.WebSocketServerProtocol is deprecated
+[WebServer]   from websockets.server import WebSocketServerProtocol
+[WebServer] INFO:     Started server process [86876]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8696 (Press CTRL+C to quit)
+[WebServer] ▲ [WARNING] Cannot find base config file "./.svelte-kit/tsconfig.json" [tsconfig.json]
+[WebServer] 
+[WebServer]     tsconfig.json:2:13:
+[WebServer]       2 │   "extends": "./.svelte-kit/tsconfig.json",
+[WebServer]         ╵              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[WebServer] 
+
+Running 21 tests using 1 worker
+
+  ✓   1 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:95:2 › comment hotkey, against a real backend › a real "m" keydown arms pin placement (4.5s)
+  ✓   2 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:101:2 › comment hotkey, against a real backend › typing "m" into a real focused text field does not arm placement (3.8s)
+  ✓   3 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:113:2 › comment hotkey, against a real backend › a modifier-held "m" does not arm placement (3.6s)
+  ✓   4 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:141:2 › comment hotkey, against a real backend › a real "m" keydown arms pin placement after clicking the waveform seek canvas (4.8s)
+  ✓   5 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:184:2 › global shortcuts outside text entry (issue #3528) › hovering a library row (no text focus) then pressing M opens the pin composer (3.7s)
+  ✓   6 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:222:2 › global shortcuts outside text entry (issue #3528) › hidden pins stay off the canvas until M reveals them and opens placement (4.8s)
+  ✓   7 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:271:2 › global shortcuts outside text entry (issue #3528) › Space on a library row toggles transport instead of scrolling the page (6.4s)
+  ✓   8 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:322:2 › global shortcuts outside text entry (issue #3528) › Space inside a text input is left alone (3.8s)
+  ✓   9 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:346:2 › pin draft restore, page-tagged › a draft tagged to a different page is dropped, not restored (415ms)
+  ✓  10 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:363:2 › pin draft restore, page-tagged › a draft tagged to the current page IS restored (631ms)
+  ✓  11 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:388:2 › pin draft restore, page-tagged › a draft tagged to a different page survives being left un-restored, not deleted (4.5s)
+  ✓  12 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:421:2 › pin card remeasures after a real viewport resize › an open card stays inside a real, enlarged viewport (4.7s)
+  ✓  13 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:496:2 › pin draft save, repeat-safe › two rapid Cmd/Ctrl+Enter presses create exactly one real pin (5.0s)
+  ✓  14 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:541:2 › pin draft save, repeat-safe › a real Meta+Enter (Cmd) keydown saves the comment being typed (4.6s)
+  ✓  15 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:574:2 › pin draft save, repeat-safe › a real Meta+Enter still saves after natural typing and a pause, focus verified first (5.9s)
+  ✓  16 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:618:2 › pin draft save, repeat-safe › text typed while a save is still in flight is not discarded when it resolves (6.3s)
+  ✓  17 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:653:2 › pin draft save, repeat-safe › cancelling and re-placing with the same text survives the old save resolving (5.4s)
+  ✓  18 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:711:2 › archived pin status styling › a pin archived through the real lifecycle endpoints leaves the canvas (9.0s)
+  ✓  19 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:786:2 › root layout wiring, on a real mounted page › a real page load installs window.__mdtScheduleReload without any test-side call (680ms)
+  ✓  20 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:813:2 › vocal-area Fix/add comment (issue #698) › empty deck omits Fix / add comment (4.5s)
+  ✓  21 [comment-hotkey-gate-chromium] › tests/e2e/comment-hotkey-browser.spec.ts:820:2 › vocal-area Fix/add comment (issue #698) › loaded wavestack opens a vocal-area pin draft and POSTs it (5.2s)
+
+  21 passed (1.9m)
