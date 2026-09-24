@@ -1,0 +1,1468 @@
+{
+  "events": [
+    {
+      "t": "2026-09-24T06:42:39.713Z",
+      "label": "navigate.start",
+      "url": "http://127.0.0.1:9430/performance"
+    },
+    {
+      "t": "2026-09-24T06:42:40.710Z",
+      "label": "navigate.performance.loaded"
+    },
+    {
+      "t": "2026-09-24T06:42:42.613Z",
+      "label": "deck1.track.selected",
+      "title": "load to deck:\n1\n2\n3\n4\nThe Cure & The Cause - Dr Packer Remix",
+      "query": "Dr Packer Remix"
+    },
+    {
+      "t": "2026-09-24T06:42:42.701Z",
+      "label": "deck1.load-confirm.accepted"
+    },
+    {
+      "t": "2026-09-24T06:42:44.789Z",
+      "label": "console.error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "t": "2026-09-24T06:42:45.268Z",
+      "label": "deck1.playing.confirmed"
+    },
+    {
+      "t": "2026-09-24T06:42:46.612Z",
+      "label": "deck2.attempt1.track.selected",
+      "title": "load to deck:\n1\n2\n3\n4\n6A - 7 - Look At Me",
+      "query": "Look At Me"
+    },
+    {
+      "t": "2026-09-24T06:43:17.780Z",
+      "label": "console.error",
+      "text": "[perf-event] toast-error id=t-mh5svw-1: cannot load: availability still checking (wait for disk probe)"
+    },
+    {
+      "t": "2026-09-24T06:43:17.836Z",
+      "label": "deck2.load-confirm.accepted",
+      "attempt": 1
+    },
+    {
+      "t": "2026-09-24T06:43:47.865Z",
+      "label": "deck2.load.retry",
+      "attempt": 1
+    },
+    {
+      "t": "2026-09-24T06:43:49.112Z",
+      "label": "deck2.attempt2.track.selected",
+      "title": "load to deck:\n1\n2\n3\n4\n6A - 7 - Look At Me",
+      "query": "Look At Me"
+    },
+    {
+      "t": "2026-09-24T06:44:20.343Z",
+      "label": "console.error",
+      "text": "[perf-event] toast-error id=t-mh5svw-2: cannot load: availability still checking (wait for disk probe)"
+    },
+    {
+      "t": "2026-09-24T06:44:20.396Z",
+      "label": "deck2.load-confirm.accepted",
+      "attempt": 2
+    },
+    {
+      "t": "2026-09-24T06:44:50.424Z",
+      "label": "deck2.load.retry",
+      "attempt": 2
+    },
+    {
+      "t": "2026-09-24T06:44:51.686Z",
+      "label": "deck2.attempt3.track.selected",
+      "title": "load to deck:\n1\n2\n3\n4\n6A - 7 - Look At Me",
+      "query": "Look At Me"
+    },
+    {
+      "t": "2026-09-24T06:45:22.931Z",
+      "label": "console.error",
+      "text": "[perf-event] toast-error id=t-mh5svw-3: cannot load: availability still checking (wait for disk probe)"
+    },
+    {
+      "t": "2026-09-24T06:45:22.982Z",
+      "label": "deck2.load-confirm.accepted",
+      "attempt": 3
+    },
+    {
+      "t": "2026-09-24T06:45:52.993Z",
+      "label": "deck2.load.retry",
+      "attempt": 3
+    },
+    {
+      "t": "2026-09-24T06:45:52.994Z",
+      "label": "deck2.load.gave-up",
+      "note": "proceeding with deck 1 only; this is a pre-existing library-availability-probe quirk on this machine (issue #1037 TTL), not a defect in this PR"
+    },
+    {
+      "t": "2026-09-24T06:45:53.020Z",
+      "label": "fader1.initial-value",
+      "value": 1
+    },
+    {
+      "t": "2026-09-24T06:45:58.274Z",
+      "label": "sample.fader-full",
+      "samples": [
+        {
+          "i": 0,
+          "ch1": {
+            "db": -5.251197419711289,
+            "text": "-5.3 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -8.856791661998196,
+            "text": "-8.9 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 1,
+          "ch1": {
+            "db": -2.2882859172197865,
+            "text": "-2.3 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -5.964468381972517,
+            "text": "-6.0 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 2,
+          "ch1": {
+            "db": -1.9798363626653483,
+            "text": "-2.0 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -5.600724742562034,
+            "text": "-5.6 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 3,
+          "ch1": {
+            "db": -2.3605646439867245,
+            "text": "-2.4 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -6.037923176036633,
+            "text": "-6.0 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 4,
+          "ch1": {
+            "db": -5.272329349869078,
+            "text": "-5.3 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -8.94733494088276,
+            "text": "-8.9 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 5,
+          "ch1": {
+            "db": -1.7648100556509732,
+            "text": "-1.8 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -2.7620418531337454,
+            "text": "-2.8 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 6,
+          "ch1": {
+            "db": -2.0235061473556923,
+            "text": "-2.0 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -5.6432183237921025,
+            "text": "-5.6 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 7,
+          "ch1": {
+            "db": -1.8364690887794477,
+            "text": "-1.8 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -5.480886429029709,
+            "text": "-5.5 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 8,
+          "ch1": {
+            "db": -4.450328737194365,
+            "text": "-4.5 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -7.819469518900661,
+            "text": "-7.8 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 9,
+          "ch1": {
+            "db": -3.501756879198289,
+            "text": "-3.5 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -4.8371494988895725,
+            "text": "-4.8 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 10,
+          "ch1": {
+            "db": -2.1819619010467757,
+            "text": "-2.2 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -5.801673619197675,
+            "text": "-5.8 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 11,
+          "ch1": {
+            "db": -3.9345168502211716,
+            "text": "-3.9 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -7.604817260620465,
+            "text": "-7.6 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 12,
+          "ch1": {
+            "db": -1.508330108555175,
+            "text": "-1.5 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -5.1021595086124245,
+            "text": "-5.1 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 13,
+          "ch1": {
+            "db": -2.781462981412308,
+            "text": "-2.8 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -6.4082338389467886,
+            "text": "-6.4 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 14,
+          "ch1": {
+            "db": 0.45934745628521007,
+            "text": "0.5 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -3.266246502111737,
+            "text": "-3.3 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 15,
+          "ch1": {
+            "db": -2.493593720185378,
+            "text": "-2.5 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -6.041540619828918,
+            "text": "-6.0 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 16,
+          "ch1": {
+            "db": -0.5742134865784256,
+            "text": "-0.6 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -4.216278478702676,
+            "text": "-4.2 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 17,
+          "ch1": {
+            "db": -3.092776502530498,
+            "text": "-3.1 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -6.770135150757328,
+            "text": "-6.8 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 18,
+          "ch1": {
+            "db": -0.24719122993239273,
+            "text": "-0.2 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -3.7998442815382836,
+            "text": "-3.8 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        },
+        {
+          "i": 19,
+          "ch1": {
+            "db": -2.922774822627991,
+            "text": "-2.9 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -6.496604119863509,
+            "text": "-6.5 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 1
+        }
+      ]
+    },
+    {
+      "t": "2026-09-24T06:45:58.468Z",
+      "label": "screenshot.fader-full",
+      "path": "/tmp/pr3552-air-evidence/01-fader-full.png"
+    },
+    {
+      "t": "2026-09-24T06:46:04.634Z",
+      "label": "sample.fader-half",
+      "samples": [
+        {
+          "i": 0,
+          "ch1": {
+            "db": -6.04044777063948,
+            "text": "-6.0 dBFS - CLIPPING",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -9.67074792355863,
+            "text": "-9.7 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 1,
+          "ch1": {
+            "db": -8.942800711675703,
+            "text": "-8.9 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -12.6072185117238,
+            "text": "-12.6 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 2,
+          "ch1": {
+            "db": -7.226481296236165,
+            "text": "-7.2 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -10.868546450815511,
+            "text": "-10.9 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 3,
+          "ch1": {
+            "db": -10.050010708000872,
+            "text": "-10.1 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -13.702664097944458,
+            "text": "-13.7 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 4,
+          "ch1": {
+            "db": -5.683619117253675,
+            "text": "-5.7 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -9.505684081582391,
+            "text": "-9.5 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 5,
+          "ch1": {
+            "db": -8.80597205850027,
+            "text": "-8.8 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -8.147992761919388,
+            "text": "-8.1 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 6,
+          "ch1": {
+            "db": -6.948692519125947,
+            "text": "-6.9 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -10.598992309613534,
+            "text": "-10.6 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 7,
+          "ch1": {
+            "db": -9.478623030428741,
+            "text": "-9.5 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -8.333387019474195,
+            "text": "-8.3 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 8,
+          "ch1": {
+            "db": -6.952985516232418,
+            "text": "-7.0 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -10.089690712268167,
+            "text": "-10.1 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 9,
+          "ch1": {
+            "db": -9.392332016045572,
+            "text": "-9.4 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -8.910109120739362,
+            "text": "-8.9 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 10,
+          "ch1": {
+            "db": -7.412493809026283,
+            "text": "-7.4 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -8.503365992586087,
+            "text": "-8.5 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 11,
+          "ch1": {
+            "db": -7.663654309922517,
+            "text": "-7.7 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -6.605917647799059,
+            "text": "-6.6 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 12,
+          "ch1": {
+            "db": -5.769735049542284,
+            "text": "-5.8 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -9.492976471398592,
+            "text": "-9.5 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 13,
+          "ch1": {
+            "db": -8.710911520130521,
+            "text": "-8.7 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -7.902239965751216,
+            "text": "-7.9 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 14,
+          "ch1": {
+            "db": -6.846769190344025,
+            "text": "-6.8 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -10.402951596074717,
+            "text": "-10.4 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 15,
+          "ch1": {
+            "db": -9.650298601898362,
+            "text": "-9.7 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -7.330978104443209,
+            "text": "-7.3 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 16,
+          "ch1": {
+            "db": -6.485383794917343,
+            "text": "-6.5 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -10.059213398630979,
+            "text": "-10.1 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 17,
+          "ch1": {
+            "db": -5.91388113668833,
+            "text": "-5.9 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -7.9223147916692405,
+            "text": "-7.9 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 18,
+          "ch1": {
+            "db": -7.090838470063643,
+            "text": "-7.1 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -10.691726556445245,
+            "text": "-10.7 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        },
+        {
+          "i": 19,
+          "ch1": {
+            "db": -9.780250234699404,
+            "text": "-9.8 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -8.872214015008879,
+            "text": "-8.9 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0.5
+        }
+      ]
+    },
+    {
+      "t": "2026-09-24T06:46:04.871Z",
+      "label": "screenshot.fader-half",
+      "path": "/tmp/pr3552-air-evidence/02-fader-half.png"
+    },
+    {
+      "t": "2026-09-24T06:46:07.919Z",
+      "label": "console.error",
+      "text": "[perf-event] silent-while-playing deck=1: silent while claimed live cause=unknown last=toast-error: cannot load: availability still checking (wait for disk probe)"
+    },
+    {
+      "t": "2026-09-24T06:46:07.920Z",
+      "label": "console.error",
+      "text": "[perf-event] toast-error id=t-mh5svw-4: AUDIO CUT decks=1 bpm=123 sync=bar cause=unknown last=toast-error: cannot load: availability still checking (wait for disk probe)"
+    },
+    {
+      "t": "2026-09-24T06:46:10.118Z",
+      "label": "sample.fader-zero",
+      "samples": [
+        {
+          "i": 0,
+          "ch1": {
+            "db": -18.680974681432616,
+            "text": "-18.7 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -22.352451712028884,
+            "text": "-22.4 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 1,
+          "ch1": {
+            "db": -21.686857034373794,
+            "text": "-21.7 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -25.36421641791124,
+            "text": "-25.4 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 2,
+          "ch1": {
+            "db": -24.636268798939433,
+            "text": "-24.6 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -28.223039947322995,
+            "text": "-28.2 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 3,
+          "ch1": {
+            "db": -27.559798210704145,
+            "text": "-27.6 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -31.230098771132898,
+            "text": "-31.2 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 4,
+          "ch1": {
+            "db": -30.623327622538977,
+            "text": "-30.6 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -34.250098770992665,
+            "text": "-34.3 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 5,
+          "ch1": {
+            "db": -33.5939158578331,
+            "text": "-33.6 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -37.159510535838784,
+            "text": "-37.2 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 6,
+          "ch1": {
+            "db": -36.42568056392582,
+            "text": "-36.4 dBFS",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -40.043039947533366,
+            "text": "-40.0 dBFS",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 7,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 8,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 9,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 10,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 11,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 12,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 13,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 14,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 15,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 16,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 17,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 18,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        },
+        {
+          "i": 19,
+          "ch1": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 1 level, post-EQ post-fader"
+          },
+          "ch2": {
+            "db": -60,
+            "text": "silent",
+            "label": "channel 2 level, post-EQ post-fader"
+          },
+          "master": {
+            "db": -60,
+            "text": "silent",
+            "label": "master output level, post master gain"
+          },
+          "fader1": 0
+        }
+      ]
+    },
+    {
+      "t": "2026-09-24T06:46:10.187Z",
+      "label": "screenshot.fader-zero",
+      "path": "/tmp/pr3552-air-evidence/03-fader-zero.png"
+    },
+    {
+      "t": "2026-09-24T06:46:10.803Z",
+      "label": "screenshot.fader-restored-full",
+      "path": "/tmp/pr3552-air-evidence/04-fader-restored-full.png"
+    },
+    {
+      "t": "2026-09-24T06:46:10.804Z",
+      "label": "summary",
+      "deck2_loaded": false,
+      "ch1": {
+        "full": {
+          "mean": -2.5003279374217953,
+          "median": -2.3244252806032555,
+          "n": 20,
+          "raw": [
+            -5.251197419711289,
+            -2.2882859172197865,
+            -1.9798363626653483,
+            -2.3605646439867245,
+            -5.272329349869078,
+            -1.7648100556509732,
+            -2.0235061473556923,
+            -1.8364690887794477,
+            -4.450328737194365,
+            -3.501756879198289,
+            -2.1819619010467757,
+            -3.9345168502211716,
+            -1.508330108555175,
+            -2.781462981412308,
+            0.45934745628521007,
+            -2.493593720185378,
+            -0.5742134865784256,
+            -3.092776502530498,
+            -0.24719122993239273,
+            -2.922774822627991
+          ]
+        },
+        "half": {
+          "mean": -7.742309043068578,
+          "median": -7.319487552631224,
+          "n": 20,
+          "raw": [
+            -6.04044777063948,
+            -8.942800711675703,
+            -7.226481296236165,
+            -10.050010708000872,
+            -5.683619117253675,
+            -8.80597205850027,
+            -6.948692519125947,
+            -9.478623030428741,
+            -6.952985516232418,
+            -9.392332016045572,
+            -7.412493809026283,
+            -7.663654309922517,
+            -5.769735049542284,
+            -8.710911520130521,
+            -6.846769190344025,
+            -9.650298601898362,
+            -6.485383794917343,
+            -5.91388113668833,
+            -7.090838470063643,
+            -9.780250234699404
+          ]
+        },
+        "zero": {
+          "mean": -48.6603411384874,
+          "median": -60,
+          "n": 20,
+          "raw": [
+            -18.680974681432616,
+            -21.686857034373794,
+            -24.636268798939433,
+            -27.559798210704145,
+            -30.623327622538977,
+            -33.5939158578331,
+            -36.42568056392582,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60
+          ]
+        }
+      },
+      "ch2_isolation_control": null,
+      "master_isolation_control": {
+        "full": {
+          "mean": -5.872877095368887,
+          "median": -5.883071000585096,
+          "n": 20,
+          "raw": [
+            -8.856791661998196,
+            -5.964468381972517,
+            -5.600724742562034,
+            -6.037923176036633,
+            -8.94733494088276,
+            -2.7620418531337454,
+            -5.6432183237921025,
+            -5.480886429029709,
+            -7.819469518900661,
+            -4.8371494988895725,
+            -5.801673619197675,
+            -7.604817260620465,
+            -5.1021595086124245,
+            -6.4082338389467886,
+            -3.266246502111737,
+            -6.041540619828918,
+            -4.216278478702676,
+            -6.770135150757328,
+            -3.7998442815382836,
+            -6.496604119863509
+          ]
+        },
+        "half": {
+          "mean": -9.510946576472332,
+          "median": -9.499330276490491,
+          "n": 20,
+          "raw": [
+            -9.67074792355863,
+            -12.6072185117238,
+            -10.868546450815511,
+            -13.702664097944458,
+            -9.505684081582391,
+            -8.147992761919388,
+            -10.598992309613534,
+            -8.333387019474195,
+            -10.089690712268167,
+            -8.910109120739362,
+            -8.503365992586087,
+            -6.605917647799059,
+            -9.492976471398592,
+            -7.902239965751216,
+            -10.402951596074717,
+            -7.330978104443209,
+            -10.059213398630979,
+            -7.9223147916692405,
+            -10.691726556445245,
+            -8.872214015008879
+          ]
+        },
+        "zero": {
+          "mean": -49.931122805138045,
+          "median": -60,
+          "n": 20,
+          "raw": [
+            -22.352451712028884,
+            -25.36421641791124,
+            -28.223039947322995,
+            -31.230098771132898,
+            -34.250098770992665,
+            -37.159510535838784,
+            -40.043039947533366,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60
+          ]
+        }
+      },
+      "delta_full_to_half_db_mean": 5.241981105646783,
+      "delta_full_to_half_db_median": 4.995062272027969,
+      "delta_full_to_zero_db_mean": 46.1600132010656
+    }
+  ]
+}
