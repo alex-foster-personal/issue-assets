@@ -1,0 +1,900 @@
+{
+  "steps": [
+    {
+      "step": "01-cold-boot-state",
+      "at_iso": "2026-09-24T17:23:03.364Z",
+      "desc": "Cold navigation to /music-player, deferred boot burst settled, before any e2e priming",
+      "query": {
+        "mode": "trackify",
+        "autoplay_enabled": true,
+        "queue_head": null,
+        "last_skip_reason": null,
+        "deck": {
+          "stable_id": null,
+          "playing": false,
+          "position_ms": 0,
+          "duration_ms": null
+        },
+        "feed_epoch": 0,
+        "feed_scope": ""
+      }
+    },
+    {
+      "step": "02-feed-primed",
+      "at_iso": "2026-09-24T17:23:03.996Z",
+      "desc": "Real feed primed via e2e_prime_feed (12 fixture tracks)",
+      "query": {
+        "mode": "trackify",
+        "autoplay_enabled": false,
+        "queue_head": null,
+        "last_skip_reason": null,
+        "deck": {
+          "stable_id": null,
+          "playing": false,
+          "position_ms": 0,
+          "duration_ms": null
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      }
+    },
+    {
+      "step": "03-landed-after-skip-chain",
+      "at_iso": "2026-09-24T17:23:04.890Z",
+      "desc": "e2e_force_load(t-fixture-0001) resolved: real HTTP 500s on vendor-mapped fixtures skipped unsupervised, landed + played",
+      "elapsed_ms": 814,
+      "query": {
+        "mode": "trackify",
+        "autoplay_enabled": false,
+        "queue_head": "t-fixture-0005",
+        "last_skip_reason": "skipped t-fixture-0004: HTTP_500: Internal Server Error",
+        "deck": {
+          "stable_id": "t-fixture-0005",
+          "playing": true,
+          "position_ms": 0,
+          "duration_ms": 249.97732426303853
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      }
+    },
+    {
+      "step": "04-skip-chain-toast-stack",
+      "at_iso": "2026-09-24T17:23:07.163Z",
+      "desc": "Mid-flight capture ~300ms after force_load: toast stack showing the real repeated HTTP 500s + skip messages"
+    },
+    {
+      "step": "04b-settled-after-toast-capture",
+      "at_iso": "2026-09-24T17:23:07.174Z",
+      "query": {
+        "mode": "trackify",
+        "autoplay_enabled": false,
+        "queue_head": "t-fixture-0005",
+        "last_skip_reason": "skipped t-fixture-0004: HTTP_500: Internal Server Error",
+        "deck": {
+          "stable_id": "t-fixture-0005",
+          "playing": true,
+          "position_ms": 0,
+          "duration_ms": 249.97732426303853
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      }
+    },
+    {
+      "step": "05-feed-exhausted",
+      "at_iso": "2026-09-24T17:23:07.747Z",
+      "desc": "skip_next() with feed exhausted: \"no more playable tracks in this feed\" toast, matches documented P2 debt (.planning/debt/3676.md)",
+      "query": {
+        "mode": "trackify",
+        "autoplay_enabled": true,
+        "queue_head": null,
+        "last_skip_reason": "manual skip exhausted feed",
+        "deck": {
+          "stable_id": "t-fixture-0005",
+          "playing": false,
+          "position_ms": 249.97732426303853,
+          "duration_ms": 249.97732426303853
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      }
+    }
+  ],
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-1: Trackify: could not load the feed (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load-fail deck=1 fetchHotCues=36 failedAt=39 stemLayout=unresolved solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-2: Deck 1 load failed - t-fixture-0001: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] deck-load-fail deck=1: t-fixture-0001: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-3: Performance command failed - RbApiError: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "info",
+      "text": "[perf-event] toast-info id=t-2f68j2-4: Trackify: skipped track (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load-fail deck=1 fetchHotCues=35 failedAt=36 stemLayout=unresolved solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-5: Deck 1 load failed - t-fixture-0002: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] deck-load-fail deck=1: t-fixture-0002: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-6: Performance command failed - RbApiError: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "info",
+      "text": "[perf-event] toast-info id=t-2f68j2-7: Trackify: skipped track (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load-fail deck=1 fetchAnlz=38 failedAt=39 stemLayout=unresolved solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-8: Deck 1 load failed - t-fixture-0003: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] deck-load-fail deck=1: t-fixture-0003: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-9: Performance command failed - RbApiError: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "info",
+      "text": "[perf-event] toast-info id=t-2f68j2-10: Trackify: skipped track (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load-fail deck=1 fetchAnlz=28 failedAt=28 stemLayout=unresolved solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-11: Deck 1 load failed - t-fixture-0004: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] deck-load-fail deck=1: t-fixture-0004: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-12: Performance command failed - RbApiError: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "info",
+      "text": "[perf-event] toast-info id=t-2f68j2-13: Trackify: skipped track (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] audio-context sample_rate_hz=44100 base_latency_ms=5.805 output_latency_ms=0 context_running=1"
+    },
+    {
+      "type": "info",
+      "text": "[perf] audio-context context_running=1"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] xrun-sentinel-armed: glitch detection armed: measuring the device's own callback cadence over 128 callbacks before judging any of them (seed threshold 9.707ms from baseLatency, never judged against), reported at most every 2000ms"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load sid=t-fixture-00 deck=1 fetchHotCues=22 getTrack=83 fetchAnlz=84 fetchAudio=85 fetchWall=85 audioBytes=11068 audioPrefetchHit=0 decodedShareHit=0 decodeMix=14 stretchCreate=196 stretchLoad=3 processorLatency=0 totalBeforeSwap=624 total=625 stemLayout=pending solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-stems-none sid=t-fixture-00 deck=1 probeStem=0 total=4"
+    },
+    {
+      "type": "info",
+      "text": "[perf] transport-schedule deck=1 scheduled_offset_ms=54.8 requested_offset_ms=51.898 safety_ms=8 processor_lead_ms=46.8 processor_latency_ms=120 base_latency_ms=5.805 output_latency_ms=16 active=1 latency_floor=complete audio_context_state=running"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-2f68j2-14: Deck 1 beatgrid fallback failed - Failed to fetch"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-uzrgkg-1: Trackify: could not load the feed (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load-fail deck=1 fetchHotCues=46 failedAt=48 stemLayout=unresolved solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-uzrgkg-2: Deck 1 load failed - t-fixture-0001: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] deck-load-fail deck=1: t-fixture-0001: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-uzrgkg-3: Performance command failed - RbApiError: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "info",
+      "text": "[perf-event] toast-info id=t-uzrgkg-4: Trackify: skipped track (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load-fail deck=1 fetchHotCues=21 failedAt=22 stemLayout=unresolved solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-uzrgkg-5: Deck 1 load failed - t-fixture-0002: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] deck-load-fail deck=1: t-fixture-0002: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-uzrgkg-6: Performance command failed - RbApiError: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "info",
+      "text": "[perf-event] toast-info id=t-uzrgkg-7: Trackify: skipped track (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load-fail deck=1 fetchAnlz=30 failedAt=30 stemLayout=unresolved solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-uzrgkg-8: Deck 1 load failed - t-fixture-0003: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] deck-load-fail deck=1: t-fixture-0003: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-uzrgkg-9: Performance command failed - RbApiError: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "info",
+      "text": "[perf-event] toast-info id=t-uzrgkg-10: Trackify: skipped track (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load-fail deck=1 fetchAnlz=30 failedAt=30 stemLayout=unresolved solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-uzrgkg-11: Deck 1 load failed - t-fixture-0004: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] deck-load-fail deck=1: t-fixture-0004: HTTP_500: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "error",
+      "text": "[perf-event] toast-error id=t-uzrgkg-12: Performance command failed - RbApiError: HTTP_500: Internal Server Error"
+    },
+    {
+      "type": "info",
+      "text": "[perf-event] toast-info id=t-uzrgkg-13: Trackify: skipped track (HTTP_500: Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] audio-context sample_rate_hz=44100 base_latency_ms=5.805 output_latency_ms=0 context_running=1"
+    },
+    {
+      "type": "info",
+      "text": "[perf] audio-context context_running=1"
+    },
+    {
+      "type": "warning",
+      "text": "[perf-event] xrun-sentinel-armed: glitch detection armed: measuring the device's own callback cadence over 128 callbacks before judging any of them (seed threshold 9.707ms from baseLatency, never judged against), reported at most every 2000ms"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-load sid=t-fixture-00 deck=1 fetchHotCues=41 getTrack=49 fetchAnlz=52 fetchAudio=89 fetchWall=90 audioBytes=11068 audioPrefetchHit=0 decodedShareHit=0 decodeMix=6 stretchCreate=89 stretchLoad=1 processorLatency=0 totalBeforeSwap=196 total=197 stemLayout=pending solo=1 concurrent_loads=1 pressure=unknown"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-stems-none sid=t-fixture-00 deck=1 probeStem=0 total=2"
+    },
+    {
+      "type": "info",
+      "text": "[perf] transport-schedule deck=1 scheduled_offset_ms=54.8 requested_offset_ms=54.8 safety_ms=8 processor_lead_ms=46.8 processor_latency_ms=120 base_latency_ms=5.805 active=1 latency_floor=partial latency_unavailable=output_latency_ms audio_context_state=running"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "info",
+      "text": "[perf] deck-beatgrid-fallback-none sid=t-fixture-00 BEATGRID_FALLBACK_NOT_FOUND deck=1 fetchRbMeta=62 fetchBeatgridFallback=10 failedAt=72"
+    },
+    {
+      "type": "info",
+      "text": "[perf-event] toast-info id=t-uzrgkg-14: Trackify: no more playable tracks in this feed"
+    },
+    {
+      "type": "info",
+      "text": "[perf] transport-schedule deck=1 scheduled_offset_ms=54.8 requested_offset_ms=54.8 safety_ms=8 processor_lead_ms=46.8 processor_latency_ms=120 base_latency_ms=5.805 output_latency_ms=16 active=0 latency_floor=complete audio_context_state=running"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://localhost:9443/src/lib/api/client.ts",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/base.ts",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/events-bus.ts",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/capabilities.svelte.ts",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/entitlements.svelte.ts",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-events",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/store-build.svelte.ts",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/request-coalescer.ts",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/ui-prefs",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/playlists?availability=skip",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks?limit=500",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/entitlements",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/health",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/health",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/preflight",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/ui-prefs",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks?limit=500",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/settings",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/ui-prefs",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/setup/status",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/ui-prefs",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0001/hot-cues",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0001/anlz?gen=0",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0001",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0002/hot-cues",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0002/anlz?gen=0",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0002",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0001/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0003/anlz?gen=0",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0003/hot-cues",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0003",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0004/anlz?gen=0",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0004/hot-cues",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0004",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0002/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0003/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005/hot-cues",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0004/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005/anlz?gen=0",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/perf-tier",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/telemetry/heartbeat",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/telemetry/consent",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/feedback/todos",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/feedback/comments",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/feedback/general",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/client.ts",
+      "status": 304
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/base.ts",
+      "status": 304
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/events-bus.ts",
+      "status": 304
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/capabilities.svelte.ts",
+      "status": 304
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/entitlements.svelte.ts",
+      "status": 304
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-events",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/store-build.svelte.ts",
+      "status": 304
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/src/lib/api/request-coalescer.ts",
+      "status": 304
+    },
+    {
+      "url": "http://localhost:9443/api/v1/ui-prefs",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/entitlements",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/playlists?availability=skip",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/health",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/health",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks?limit=500",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/setup/status",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/preflight",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/ui-prefs",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks?limit=500",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/ui-prefs",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/settings",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/ui-prefs",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0001/hot-cues",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0001/anlz?gen=0",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0001",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0002/hot-cues",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0002/anlz?gen=0",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0002",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0001/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0003/anlz?gen=0",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0003/hot-cues",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0003",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/client-errors",
+      "status": 202
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0002/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0004/anlz?gen=0",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0004/hot-cues",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0004",
+      "status": 500
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0003/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0004/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005/hot-cues",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005/anlz?gen=0",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005/audio",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/ui-prefs",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005/rb-meta",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:9443/api/v1/tracks/t-fixture-0005/beatgrid-fallback",
+      "status": 404
+    }
+  ]
+}

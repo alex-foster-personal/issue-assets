@@ -1,0 +1,185 @@
+{
+  "evidence_contract": "af-github-inline-clips",
+  "pr": 3676,
+  "repo": "alex-foster-personal/music-dj-tools",
+  "requirement": "PERFMODE-15",
+  "issue": 2701,
+  "reason_for_recapture": "The immediately-prior capture at ea8c0355280d1904b8aae47f19323c253c45e8e7 (posted as artifacts under music-dj-tools/pr-3676/ea8c0355-*, not yet posted as a PR comment) was taken while CI was red for reasons unrelated to Trackify: the branch was 38 commits behind origin/main, which had since landed unrelated trunk-repair fixes (KPI-map-drift, DDL-classification, rb_assets tests). The branch was rebased onto fresh origin/main to pick those fixes up, moving the head to 1dccc53967272b4e0df1d88cd361836ecd79f8f3. The rebase itself touched no Trackify-specific source with real content changes (a JSON KPI-card-declarations merge conflict, a test-durations ledger merge, a one-line optional-field type annotation in performance-ipc.svelte.ts with zero runtime effect), but it DID pull in real changes to the shared boot path that /music-player depends on: apps/webui/frontend/src/routes/+layout.svelte (184 lines), a new apps/webui/frontend/src/lib/rb/feedback-pin-shell-boot.ts deferred-boot-task module, and changes to toast-presentation.ts, toast-report.ts, and stores.svelte.ts. Per this repo's Issue feature evidence release contract, evidence is not tree-equivalent across a shared-boot-path change and must be recaptured at the new head.",
+  "head_sha_full": "1dccc53967272b4e0df1d88cd361836ecd79f8f3",
+  "head_sha_reverified": {
+    "before_capture": "1dccc53967272b4e0df1d88cd361836ecd79f8f3",
+    "during_capture": "1dccc53967272b4e0df1d88cd361836ecd79f8f3",
+    "after_capture": "1dccc53967272b4e0df1d88cd361836ecd79f8f3",
+    "match": true
+  },
+  "comparison_baseline": {
+    "prior_head_sha_full": "ea8c0355280d1904b8aae47f19323c253c45e8e7",
+    "prior_artifacts_prefix": "music-dj-tools/pr-3676/ea8c0355-*",
+    "prior_artifacts_posted_to_github": false,
+    "note": "Chosen as the comparison baseline (not the older, already-posted 9e621466ebd7df5c00ce9978294d22542d814b18 comment) because it is the evidence set that immediately precedes this rebase and therefore isolates exactly what the rebase's boot-path pull changed."
+  },
+  "clean_worktree": {
+    "path": "/Users/alexfoster/code/music-dj-tools-wt-3676",
+    "result": "clean at every SHA check; the only untracked file created during this capture (apps/webui/frontend/.tmp_capture_1dccc539.mjs, a throwaway Playwright driver script, never committed) was deleted immediately after use and before the final SHA re-verification."
+  },
+  "surface": "/music-player (TrackifyPlayer.svelte, PERFMODE-15)",
+  "flow": "cold boot -> prime a real feed -> force a real load -> unsupervised skip-and-continue on real failures -> land and play a real track to its natural end -> feed-exhausted report",
+  "stack": {
+    "engine": "real apps.engine_core FastAPI, uv run --no-sync python -m apps.engine_core serve",
+    "engine_host_port": "127.0.0.1:8723 (this worktree's claimed backend port, `just webui-ports`)",
+    "frontend": "real SvelteKit vite dev server, pnpm dev",
+    "frontend_url": "http://localhost:9443/ (this worktree's claimed frontend port)",
+    "browser": "real Playwright Chromium (not mocked)",
+    "playwright_version": "1.61.1",
+    "chromium_version": "149.0.7827.55",
+    "node_version": "v26.8.2"
+  },
+  "setup_commands": [
+    "just webui-ports  # claims backend=127.0.0.1:8723, frontend=127.0.0.1:9443 for this worktree",
+    "uv sync --extra dev",
+    "python -c \"from pathlib import Path; from scripts.redteam_fixture_library import build_fixture_library; build_fixture_library(Path('<scratch>/trackify-recapture-1dccc539'))\"",
+    "AF_SERVICE_ID=music-dj-tools.trackify-recapture-3676 uv run --no-sync python -m apps.engine_core serve --data-dir <scratch>/trackify-recapture-1dccc539/data --port 8723 --host 127.0.0.1 --log-level info",
+    "AF_SERVICE_ID=music-dj-tools.trackify-recapture-3676-frontend pnpm dev   # (in apps/webui/frontend)",
+    "node .tmp_capture_1dccc539.mjs <out_dir>   # standalone Playwright script, deleted after the run"
+  ],
+  "fixture": {
+    "builder": "scripts.redteam_fixture_library.build_fixture_library",
+    "root": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/trackify-recapture-1dccc539",
+    "track_count": 12,
+    "real_wav_files": "true, ~250ms tone WAVs on disk under data/music/",
+    "real_sqlite_state": "true, via production apps.shared.state.writer.StateWriter",
+    "mocking": "none -- production writer, production schema migrations, production engine code path",
+    "primed_feed_ids": [
+      "t-fixture-0001","t-fixture-0002","t-fixture-0003","t-fixture-0004","t-fixture-0005",
+      "t-fixture-0006","t-fixture-0007","t-fixture-0008","t-fixture-0009","t-fixture-0010",
+      "t-fixture-0011","t-fixture-0012"
+    ],
+    "vendor_mapped_ids_that_500": ["t-fixture-0001", "t-fixture-0002", "t-fixture-0003", "t-fixture-0004"],
+    "unmapped_id_that_plays": "t-fixture-0005"
+  },
+  "demonstrated_actions": [
+    {
+      "action": "navigate to /music-player, cold, before any e2e priming",
+      "observed": "deck.stable_id=null. The route's own installTrackifyFeed() independently attempted its real default feed load at mount (GET /api/v1/tracks?limit=500) and it hit the same real HTTP 500 (visible as the 'Trackify: could not load the feed' toast in 1dccc539-01-cold-boot-state.png)."
+    },
+    {
+      "action": "toggle_autoplay(false), then e2e_prime_feed([...12 rows])",
+      "observed": "feed_epoch bumped 0->1, feed_scope=all_tracks, deck still empty."
+    },
+    {
+      "action": "e2e_force_load('t-fixture-0001')",
+      "observed": "real engine returned HTTP 500 (sqlite3.OperationalError: no such column: c.ImagePath in apps/webui/server/rb_vendor_pkg/track_rows.py bulk_rb_meta) for t-fixture-0001 through t-fixture-0004 in order; Trackify's quarantine logic caught each one and chained to the next candidate without ever blocking on a modal; landed on t-fixture-0005 (the first primed track with no vendor mapping), which loaded and began playing. Elapsed 814ms across the whole chain (first run) / 1300ms (warm-up run)."
+    },
+    {
+      "action": "re-prime from a fresh page reload and fire e2e_force_load without awaiting it, screenshot ~300ms later",
+      "observed": "captured the live toast stack mid-flight: 'Trackify: could not load the feed', 4x 'Performance command failed - RbApiError: HTTP_500', 4x 'Deck 1 could not load the track', 4x 'Trackify: skipped track (HTTP_500...)' -- the real unsupervised skip-and-continue chain, matching 1dccc539-04-skip-chain-toast-stack.png."
+    },
+    {
+      "action": "poll position vs duration while t-fixture-0005 plays",
+      "observed": "position_ms reached exactly 249.977ms == duration_ms (249.977ms) -- the real fixture WAV's actual duration, i.e. the track played to its natural end."
+    },
+    {
+      "action": "toggle_autoplay(true), then skip_next() with the feed already exhausted (4 quarantined + 1 played of 12 primed)",
+      "observed": "last_skip_reason='manual skip exhausted feed', toast 'Trackify: no more playable tracks in this feed' -- matches the already-logged, non-blocking P2 debt item in .planning/debt/3676.md (this toast repeats every 250ms indefinitely; expected, not a new finding)."
+    }
+  ],
+  "known_pre_existing_gap_not_caused_by_this_pr": "The HTTP 500s that drive the skip chain trace to apps/webui/server/rb_vendor_pkg/track_rows.py's bulk_rb_meta querying c.ImagePath, a column scripts/redteam_fixture_library.py's synthetic master.plain.db does not create. This is the same pre-existing fixture-schema gap the earlier FEATURE EVIDENCE comment (head 9e621466) and the immediately-prior ea8c0355 capture both already identified as a non-blocking follow-up; it reproduced identically here. Nothing in the rebase (which touched only shared-boot and metadata files, not track_rows.py or redteam_fixture_library.py) could plausibly change this.",
+  "boot_path_regression_check": {
+    "question": "Did the rebase's pulled-in shared-boot-path changes (+layout.svelte 184 lines, new feedback-pin-shell-boot.ts, toast-presentation.ts, toast-report.ts, stores.svelte.ts) introduce any NEW boot-time anomaly on /music-player?",
+    "method": "Direct visual + byte comparison of the cold-boot screenshot against the immediately-prior ea8c0355 capture's own cold-boot screenshot (music-dj-tools/pr-3676/ea8c0355-01-cold-empty-state.png), both taken with the same fixture-library setup and the same flow, before any e2e priming.",
+    "finding": "IDENTICAL. Both 1dccc539-01-cold-boot-state.png and ea8c0355-01-cold-empty-state.png show the exact same 'Trackify: could not load the feed (HTTP_500: Internal Server Error)' toast, same layout, same copy, same dismiss/copy affordances. This toast is caused by the pre-existing fixture-schema gap above (Trackify's own installTrackifyFeed() hydrate hitting GET /api/v1/tracks?limit=500, which 500s because the fixture library's vendor-mapped rows are missing an ImagePath column), not by anything the rebase pulled in. The mechanism that fires this call at boot (boot-scheduler.ts's deferred idle-triggered burst) itself predates the rebase by three weeks (introduced 2026-09-01, commit c48bdd76f5a, already on both sides of this rebase).",
+    "verdict": "NO REGRESSION. The natural-hydrate error toast is present, byte-for-byte equivalent in content and rendering, at both the pre-rebase (ea8c0355) and post-rebase (1dccc539) heads. The toast pipeline itself (which DID change files in this rebase: toast-presentation.ts, toast-report.ts) rendered correctly in both captures -- same text, same styling, same dismiss (x) and click-to-copy affordances -- so the changed toast plumbing is not implicated either.",
+    "additional_confirmation": "The same class of 500 (RbApiError, api-rb.ts:266) was also observed firing independently after navigating away from /music-player, confirming the underlying gap is a generic backend/fixture-data issue reachable from any track-listing surface in the app, not something specific to the Trackify boot path."
+  },
+  "unattributed_404_from_prior_capture_now_resolved": "The ea8c0355 manifest flagged one unattributed 'Failed to load resource: 404' line per run and guessed it was a benign browser default (e.g. favicon.ico), noting it was not independently confirmed via network trace. This capture DID keep a full network request log (1dccc539-capture-log.json) and resolves it: the 404 is `GET /api/v1/tracks/t-fixture-0005/beatgrid-fallback`, fired once the landed track (the unmapped fixture, no vendor row at all) is queried for a beatgrid fallback that does not exist for it. This is expected/benign for an unmapped fixture track, not a Trackify or boot-path defect, and not the favicon guess in the prior manifest.",
+  "viewport": { "width": 1280, "height": 800 },
+  "captured_at_utc_range": "2026-09-24T17:23:03Z - 2026-09-24T17:23:08Z",
+  "captured_url": "http://localhost:9443/music-player",
+  "steps": [
+    {
+      "step": "01-cold-boot-state",
+      "ipc_query": {
+        "mode": "trackify", "autoplay_enabled": true, "queue_head": null, "last_skip_reason": null,
+        "deck": { "stable_id": null, "playing": false, "position_ms": 0, "duration_ms": null },
+        "feed_epoch": 0, "feed_scope": ""
+      }
+    },
+    {
+      "step": "02-feed-primed",
+      "feed_ids_count": 12,
+      "ipc_query": {
+        "mode": "trackify", "autoplay_enabled": false, "queue_head": null, "last_skip_reason": null,
+        "deck": { "stable_id": null, "playing": false, "position_ms": 0, "duration_ms": null },
+        "feed_epoch": 1, "feed_scope": "all_tracks"
+      }
+    },
+    {
+      "step": "03-landed-after-skip-chain",
+      "requested_id": "t-fixture-0001",
+      "landed_on_unmapped_id": true,
+      "elapsed_ms": 814,
+      "final_ipc_query": {
+        "mode": "trackify", "autoplay_enabled": false, "queue_head": "t-fixture-0005",
+        "last_skip_reason": "skipped t-fixture-0004: HTTP_500: Internal Server Error",
+        "deck": { "stable_id": "t-fixture-0005", "playing": true, "position_ms": 0, "duration_ms": 249.97732426303853 },
+        "feed_epoch": 1, "feed_scope": "all_tracks"
+      }
+    },
+    {
+      "step": "04-skip-chain-toast-stack",
+      "description": "Reload + re-prime + fire-and-forget e2e_force_load, screenshot at +300ms",
+      "settled_query": {
+        "mode": "trackify", "autoplay_enabled": false, "queue_head": "t-fixture-0005",
+        "last_skip_reason": "skipped t-fixture-0004: HTTP_500: Internal Server Error",
+        "deck": { "stable_id": "t-fixture-0005", "playing": true, "position_ms": 0, "duration_ms": 249.97732426303853 },
+        "feed_epoch": 1, "feed_scope": "all_tracks"
+      }
+    },
+    {
+      "step": "05-feed-exhausted",
+      "ipc_query": {
+        "mode": "trackify", "autoplay_enabled": true, "queue_head": null, "last_skip_reason": "manual skip exhausted feed",
+        "deck": { "stable_id": "t-fixture-0005", "playing": false, "position_ms": 249.97732426303853, "duration_ms": 249.97732426303853 },
+        "feed_epoch": 1, "feed_scope": "all_tracks"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "1dccc539-01-cold-boot-state.png",
+      "description": "Cold /music-player load before any feed is primed -- shows the pre-existing (non-regressed) natural-hydrate error toast",
+      "sha256": "02edd3fee1afec054d23477d438d468d03801b69b405c631d53ab1fd6cf29660",
+      "bytes": 25172
+    },
+    {
+      "file": "1dccc539-02-feed-primed.png",
+      "description": "Feed primed via e2e_prime_feed, no track loaded yet",
+      "sha256": "961de12590c05631ee902cb67b19faa07f71fd164d769591b3f31dc7c1bde2d4",
+      "bytes": 21738
+    },
+    {
+      "file": "1dccc539-03-landed-after-skip-chain.png",
+      "description": "e2e_force_load resolved: landed on t-fixture-0005, just started playing",
+      "sha256": "82205df32b569fc1e6b49061c341398e65b45a19558f095f12164902b8d776d9",
+      "bytes": 84589
+    },
+    {
+      "file": "1dccc539-04-skip-chain-toast-stack.png",
+      "description": "Mid-flight capture (~300ms into a second force-load run) showing the full unsupervised skip-chain toast stack",
+      "sha256": "6a5febb9dd56310fb69dfca1b54fde36bf2435712c92fcf27988a8c6c0a502a5",
+      "bytes": 81174
+    },
+    {
+      "file": "1dccc539-05-feed-exhausted.png",
+      "description": "Track played to its natural end (250ms/250ms) and feed-exhausted toast after skip_next() on an exhausted feed",
+      "sha256": "21e6508268c1afb41b3f70eb7864cebd2bb6e02ca680ef67cba33a34b5a96948",
+      "bytes": 90999
+    },
+    {
+      "file": "1dccc539-capture-log.json",
+      "description": "Full console + network request log for the capture run (used to resolve the prior capture's unattributed 404)",
+      "sha256": "a3aefc8b9bbdabe8d58bb71f0bc9198bc260feea08b521ea56e3364c59275bde",
+      "bytes": 28033
+    }
+  ]
+}
