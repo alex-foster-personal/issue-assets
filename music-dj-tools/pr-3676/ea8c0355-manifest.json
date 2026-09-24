@@ -1,0 +1,294 @@
+{
+  "evidence_contract": "af-github-inline-clips",
+  "pr": 3676,
+  "repo": "alex-foster-personal/music-dj-tools",
+  "requirement": "PERFMODE-15",
+  "issue": 2701,
+  "reason_for_recapture": "Prior FEATURE EVIDENCE comment (2026-09-24T07:39:25Z, https://github.com/alex-foster-personal/music-dj-tools/pull/3676#issuecomment-5809908450) was captured at 9e621466ebd7df5c00ce9978294d22542d814b18, which is not an ancestor of the current head (git merge-base --is-ancestor exit 1) -- branch was rebased since. 4 runtime-behavior-changing commits landed since that capture, all in the exact Trackify runtime path this flow exercises: d89de09198814e13eb3138c90b83fd842c5a9995, 3c6ed3a602c8a77d83ffc93d45b9f7749e4bad72, 5585617c51cb8ca1c947f10b58787d0076d7016e, 4dabcfdbf33a54c65579efa1e50b91cea044ae21.",
+  "head_sha_full": "ea8c0355280d1904b8aae47f19323c253c45e8e7",
+  "head_sha_reverified": {
+    "before_capture": "ea8c0355280d1904b8aae47f19323c253c45e8e7",
+    "after_capture": "ea8c0355280d1904b8aae47f19323c253c45e8e7",
+    "match": true
+  },
+  "clean_worktree": {
+    "path": "/Users/alexfoster/code/music-dj-tools-wt-3676",
+    "result": "clean except this run's own scratch dir apps/webui/frontend/.tmp-evidence-runner/ (deleted after capture, never committed)"
+  },
+  "surface": "/music-player (TrackifyPlayer.svelte, PERFMODE-15)",
+  "flow": "cold empty state -> prime a real feed -> force a real load -> unsupervised skip-and-continue on real failures -> land and play a real track to its natural end -> feed-exhausted report -> explicit skip_next() on exhausted feed",
+  "stack": {
+    "engine": "real apps.engine_core FastAPI, uv run --no-sync python -m apps.engine_core serve",
+    "engine_host_port": "127.0.0.1:8723 (this worktree's claimed backend port, `just webui-ports`)",
+    "frontend": "real SvelteKit vite dev server, pnpm dev",
+    "frontend_url": "http://localhost:9443/ (this worktree's claimed frontend port)",
+    "browser": "real Playwright Chromium (not mocked)",
+    "playwright_version": "1.61.1",
+    "chromium_version": "149.0.7827.55",
+    "node_version": "v26.8.2"
+  },
+  "fixture": {
+    "builder": "scripts.redteam_fixture_library.build_fixture_library",
+    "root": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/pr3676-evidence/fixture-root",
+    "track_count": 12,
+    "real_wav_files": "true, ~250ms tone WAVs on disk under data/music/",
+    "real_sqlite_state": "true, via production apps.shared.state.writer.StateWriter",
+    "mocking": "none -- production writer, production schema migrations, production engine code path",
+    "primed_feed_ids": [
+      "t-fixture-0001",
+      "t-fixture-0002",
+      "t-fixture-0003",
+      "t-fixture-0004",
+      "t-fixture-0005"
+    ],
+    "vendor_mapped_ids_that_500": [
+      "t-fixture-0001",
+      "t-fixture-0002",
+      "t-fixture-0003",
+      "t-fixture-0004"
+    ],
+    "unmapped_id_that_plays": "t-fixture-0005"
+  },
+  "demonstrated_actions": [
+    {
+      "action": "navigate to /music-player, cold",
+      "observed": "deck.stable_id=null, autoplay_enabled=true, no feed primed by this script yet. Note: the route's own installTrackifyFeed() independently attempted a real default feed load at mount and it also hit the same real HTTP 500 (visible as the 'Trackify: could not load the feed' toast in 01-cold-empty-state.png) -- the schema gap affects the app's own default cold-load path, not just this script's later forced chain."
+    },
+    {
+      "action": "toggle_autoplay(false), then e2e_prime_feed([...5 rows])",
+      "observed": "feed_epoch bumped 0->1, feed_scope=all_tracks, deck still empty. Autoplay was disabled only for this priming step to stop installTrackifyAutoplay's own 250ms tick from independently picking a first candidate and racing the explicit e2e_force_load call below (confirmed by reproducing the race live: an earlier capture run without this step visited some track ids twice before landing). Re-enabled immediately after the forced chain settles."
+    },
+    {
+      "action": "e2e_force_load('t-fixture-0001')",
+      "observed": "real engine returned HTTP 500 (sqlite3.OperationalError: no such column: c.ImagePath in apps/webui/server/rb_vendor_pkg/track_rows.py bulk_rb_meta) for t-fixture-0001 through t-fixture-0004 in order; Trackify's quarantine logic caught each one and chained to the next candidate without ever blocking on a modal; landed on t-fixture-0005 (the one primed track with no vendor mapping), which loaded and began playing. Elapsed 2208ms across the whole chain."
+    },
+    {
+      "action": "poll position vs duration while t-fixture-0005 plays",
+      "observed": "position_ms reached exactly 249.977ms == duration_ms (249.977ms), i.e. the real fixture WAV's actual duration -- the track played to its natural end, not a synthetic stop."
+    },
+    {
+      "action": "observe autoplay's own tick after the track ended",
+      "observed": "last_skip_reason='feed exhausted' -- with only 5 rows primed (4 now quarantined, 1 now played), pickNextTrackifyCandidate correctly found no further candidate and did not error."
+    },
+    {
+      "action": "explicit skip_next() call on the already-exhausted feed",
+      "observed": "last_skip_reason='manual skip exhausted feed', deck unchanged, no error raised -- confirms the exhausted-feed path degrades gracefully under a second, manual trigger too."
+    }
+  ],
+  "known_pre_existing_gap_not_caused_by_this_pr": "The HTTP 500s that drive the skip chain trace to apps/webui/server/rb_vendor_pkg/track_rows.py's bulk_rb_meta querying c.ImagePath, a column scripts/redteam_fixture_library.py's synthetic master.plain.db does not create. This is the same pre-existing fixture-schema gap the prior (now-stale) FEATURE EVIDENCE comment on this PR already identified and flagged as a non-blocking follow-up; it reproduced identically in this capture. None of the 4 fixes since the prior capture touch either file.",
+  "anomaly_observed": "One 'Failed to load resource: 404 (Not Found)' console line appeared after the last 500, reproduced identically across all 3 capture runs in this session. It was not traceable to any Trackify/engine API path in the engine's own log for this run (the engine log shows no 404s at all, and no engine access-log lines at all in this build); the most likely explanation is a benign browser-default request (e.g. favicon.ico -- this run's 1280x800 viewport and dev server otherwise serves everything the page references) rather than a Trackify-path failure, but this was not independently confirmed with a network-request trace, so it is reported here rather than silently dropped or guessed at with false confidence.",
+  "autoplay_race_found_and_worked_around": "A capture run in this session that primed the feed and called e2e_force_load without first disabling autoplay showed the retry chain revisit t-fixture-0001/0002/0003 a second time (7 failures observed instead of 4) before landing on t-fixture-0005 -- installTrackifyAutoplay's own 250ms tick independently picks and loads the first feed candidate as soon as the feed is non-empty and the deck is null, racing this script's own explicit e2e_force_load call. This is not a defect in the 4 fixes under evidence here (autoplay's deck-null first-pick branch and e2e_force_load's own retry chain are both pre-existing PERFMODE-15 mechanics, not touched by this recapture's 4 commits); it is a property of driving e2e_force_load with autoplay left on, matching why tests/e2e/trackify-mode.spec.ts calls `ipc.toggle_autoplay(false)` before priming. This capture does the same and the final run landed cleanly with exactly 4 failures.",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "captured_at_utc": "2026-09-24T17:02:58.421Z",
+  "captured_url": "http://localhost:9443/music-player",
+  "steps": [
+    {
+      "step": "cold_load",
+      "ipc_query": {
+        "mode": "trackify",
+        "autoplay_enabled": true,
+        "queue_head": null,
+        "last_skip_reason": null,
+        "deck": {
+          "stable_id": null,
+          "playing": false,
+          "position_ms": 0,
+          "duration_ms": null
+        },
+        "feed_epoch": 0,
+        "feed_scope": ""
+      }
+    },
+    {
+      "step": "prime_feed",
+      "feed_ids": [
+        "t-fixture-0001",
+        "t-fixture-0002",
+        "t-fixture-0003",
+        "t-fixture-0004",
+        "t-fixture-0005"
+      ],
+      "ipc_query": {
+        "mode": "trackify",
+        "autoplay_enabled": false,
+        "queue_head": null,
+        "last_skip_reason": null,
+        "deck": {
+          "stable_id": null,
+          "playing": false,
+          "position_ms": 0,
+          "duration_ms": null
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      }
+    },
+    {
+      "step": "force_load_chain",
+      "requested_id": "t-fixture-0001",
+      "landed_on_unmapped_id": true,
+      "elapsed_ms": 656,
+      "final_ipc_query": {
+        "mode": "trackify",
+        "autoplay_enabled": false,
+        "queue_head": "t-fixture-0005",
+        "last_skip_reason": "skipped t-fixture-0004: HTTP_500: Internal Server Error",
+        "deck": {
+          "stable_id": "t-fixture-0005",
+          "playing": true,
+          "position_ms": 0,
+          "duration_ms": 249.97732426303853
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      },
+      "e2e_force_load_return": {
+        "mode": "trackify",
+        "autoplay_enabled": false,
+        "queue_head": "t-fixture-0005",
+        "last_skip_reason": "skipped t-fixture-0004: HTTP_500: Internal Server Error",
+        "deck": {
+          "stable_id": "t-fixture-0005",
+          "playing": true,
+          "position_ms": 0,
+          "duration_ms": 249.97732426303853
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      }
+    },
+    {
+      "step": "position_advance_watch",
+      "best_frame": {
+        "ratio": 1,
+        "query": {
+          "mode": "trackify",
+          "autoplay_enabled": true,
+          "queue_head": "t-fixture-0005",
+          "last_skip_reason": "skipped t-fixture-0004: HTTP_500: Internal Server Error",
+          "deck": {
+            "stable_id": "t-fixture-0005",
+            "playing": false,
+            "position_ms": 249.97732426303853,
+            "duration_ms": 249.97732426303853
+          },
+          "feed_epoch": 1,
+          "feed_scope": "all_tracks"
+        },
+        "at": 1790269381070
+      }
+    },
+    {
+      "step": "autoplay_exhaust_wait",
+      "ipc_query": {
+        "mode": "trackify",
+        "autoplay_enabled": true,
+        "queue_head": null,
+        "last_skip_reason": "feed exhausted",
+        "deck": {
+          "stable_id": "t-fixture-0005",
+          "playing": false,
+          "position_ms": 249.97732426303853,
+          "duration_ms": 249.97732426303853
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      }
+    },
+    {
+      "step": "explicit_skip_next",
+      "skip_next_return": {
+        "mode": "trackify",
+        "autoplay_enabled": true,
+        "queue_head": null,
+        "last_skip_reason": "feed exhausted",
+        "deck": {
+          "stable_id": "t-fixture-0005",
+          "playing": false,
+          "position_ms": 249.97732426303853,
+          "duration_ms": 249.97732426303853
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      },
+      "ipc_query_after": {
+        "mode": "trackify",
+        "autoplay_enabled": true,
+        "queue_head": null,
+        "last_skip_reason": "manual skip exhausted feed",
+        "deck": {
+          "stable_id": "t-fixture-0005",
+          "playing": false,
+          "position_ms": 249.97732426303853,
+          "duration_ms": 249.97732426303853
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "01-cold-empty-state.png",
+      "description": "Cold /music-player load before any feed is primed",
+      "sha256": "961de12590c05631ee902cb67b19faa07f71fd164d769591b3f31dc7c1bde2d4",
+      "bytes": 21738
+    },
+    {
+      "file": "02-now-playing-skip-chain.png",
+      "description": "Unsupervised skip chain visible in toast stack, landed on t-fixture-0005",
+      "sha256": "82205df32b569fc1e6b49061c341398e65b45a19558f095f12164902b8d776d9",
+      "bytes": 84589
+    },
+    {
+      "file": "03-position-advanced.png",
+      "description": "Position bar closest observed sample to the track's natural end",
+      "sha256": "b8c5e30e0644fcfb00fbc10dc75d4c64c1553f99d46b02bb33333c302c57afa5",
+      "bytes": 84787
+    },
+    {
+      "file": "04-feed-exhausted.png",
+      "description": "Feed-exhausted state after the primed rows are all played/quarantined",
+      "sha256": "21e6508268c1afb41b3f70eb7864cebd2bb6e02ca680ef67cba33a34b5a96948",
+      "bytes": 90999
+    },
+    {
+      "file": "05-after-explicit-skip-next.png",
+      "description": "State after an explicit skip_next() call on an exhausted feed",
+      "sha256": "db97a0fcbbbe5510d27a031e7d1cb9745c1bc4d316d5e169691b6c38d6112e85",
+      "bytes": 76990
+    }
+  ],
+  "console_errors_raw": [
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "[perf-event] toast-error id=t-92mclk-1: Trackify: could not load the feed (HTTP_500: Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "[perf-event] toast-error id=t-92mclk-2: Deck 1 load failed - t-fixture-0001: HTTP_500: HTTP_500: Internal Server Error",
+    "[perf-event] toast-error id=t-92mclk-3: Performance command failed - RbApiError: HTTP_500: Internal Server Error",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "[perf-event] toast-error id=t-92mclk-5: Deck 1 load failed - t-fixture-0002: HTTP_500: HTTP_500: Internal Server Error",
+    "[perf-event] toast-error id=t-92mclk-6: Performance command failed - RbApiError: HTTP_500: Internal Server Error",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "[perf-event] toast-error id=t-92mclk-8: Deck 1 load failed - t-fixture-0003: HTTP_500: HTTP_500: Internal Server Error",
+    "[perf-event] toast-error id=t-92mclk-9: Performance command failed - RbApiError: HTTP_500: Internal Server Error",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "[perf-event] toast-error id=t-92mclk-11: Deck 1 load failed - t-fixture-0004: HTTP_500: HTTP_500: Internal Server Error",
+    "[perf-event] toast-error id=t-92mclk-12: Performance command failed - RbApiError: HTTP_500: Internal Server Error",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "page_errors_raw": [
+    "RbApiError: HTTP_500: Internal Server Error"
+  ]
+}
