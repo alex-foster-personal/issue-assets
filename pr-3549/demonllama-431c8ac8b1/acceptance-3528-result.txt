@@ -1,0 +1,69 @@
+issue #3528 acceptance browser evidence
+========================================
+
+Host: demon-llama.local (alex@, macOS 26.5.1, Darwin 25.5.0, arm64)
+Repo checkout: ~/code/music-dj-tools-wt-pr3549 (git worktree, detached HEAD)
+Head SHA (full): 431c8ac8b127318f16f1b9ff072bcc745b8b0c3e
+Branch: af--idd-9d749cbc-issue-3528-resolve-github-issue-3528-https-github-c
+Captured: 2026-09-24T06:39-07:41Z (UTC, date -u)
+Worktree status at capture time: clean (git status --short: empty)
+
+Command:
+  cd ~/code/music-dj-tools-wt-pr3549/apps/webui/frontend
+  npx playwright test --config tests/e2e/playwright.comment-hotkey-gate.config.ts --reporter=list
+
+Config: tests/e2e/playwright.comment-hotkey-gate.config.ts (real FastAPI backend on
+127.0.0.1:8696, real SvelteKit dev frontend on 127.0.0.1:5321, real throwaway fixture
+library seeded by support/deckload_fixture.py via real audio generation + real ingest,
+not mocked data). Both servers bound to loopback on demon-llama itself; no tunneling or
+proxying back to any other host.
+
+Result: 21 passed, 0 failed, 0 skipped (2.1m)
+
+Full test list (all 21 passed), including the exact acceptance-bullet tests:
+  - "hovering a library row (no text focus) then pressing M opens the pin composer"
+    (comment-hotkey-browser.spec.ts:184) - closes issue #3528's own acceptance line:
+    "A browser test (Air or demon-llama, never silver) hovers over the library,
+    presses M, and asserts the pin composer opens."
+  - "hidden pins stay off the canvas until M reveals them and opens placement"
+    (comment-hotkey-browser.spec.ts:222)
+  - "Space on a library row toggles transport instead of scrolling the page"
+    (comment-hotkey-browser.spec.ts:271)
+  - "Space inside a text input is left alone" (comment-hotkey-browser.spec.ts:322)
+  - "typing "m" into a real focused text field does not arm placement" (:101)
+  - "a modifier-held "m" does not arm placement" (:113)
+  - "a real "m" keydown arms pin placement after clicking the waveform seek canvas" (:141)
+  - plus 14 further real-backend pin lifecycle/draft-restore/viewport tests unrelated
+    to #3528 but exercised by the same suite (all passed, confirming no regression).
+
+Raw exit status: 0
+
+Screenshots (separate ad hoc Playwright script against the same real backend/fixture,
+not committed to the repo - see manifest.md alongside this file for exact flow, SHA256
+checksums, and upload URLs):
+  a-before-hover-m.png            - real library row under real mouse hover, no
+                                     text-entry focus
+  b-after-m-placement-armed.png   - after pressing 'm': feedbackState.placementArmed
+                                     is true, .fb-place-overlay is visible (a
+                                     deliberately transparent full-viewport click
+                                     target - crosshair cursor, no visible chrome
+                                     until the next click lands the pin)
+  c-composer-bubble-open.png      - after clicking the armed overlay: the actual
+                                     visible pin composer (FeedbackPinDraftBubble,
+                                     "What is wrong / right here?" textarea, Save
+                                     pin / Cancel buttons) is open
+  d-negative-control-text-input.png - a real focused <input> receives the literal
+                                     character "m" instead of arming placement
+                                     (placementArmed stays false)
+
+Limitations:
+  - Screenshots came from a separate, non-committed ad hoc Playwright script driving
+    the same real dev server/backend/fixture the comment-hotkey-gate suite itself
+    boots, to capture visual states the committed spec's own assertions already
+    verify programmatically. The committed suite's PASS/FAIL is the actual acceptance
+    evidence; the screenshots are supplementary visual confirmation of the same run.
+  - The fixture library is a small (2-track) generated/ingested library
+    (support/deckload_fixture.py), not demon-llama's own personal library - sufficient
+    for the real /api/v1/preflight library-attached check and the real hotkey/backend
+    wiring this bullet is about, per the same real-backend rationale the suite's own
+    header comment documents.
