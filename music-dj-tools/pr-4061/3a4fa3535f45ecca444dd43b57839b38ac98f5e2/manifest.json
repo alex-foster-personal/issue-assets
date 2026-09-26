@@ -1,0 +1,179 @@
+{
+  "repo": "alex-foster-personal/music-dj-tools",
+  "pr": 4061,
+  "issue": 4036,
+  "head_sha": "3a4fa3535f45ecca444dd43b57839b38ac98f5e2",
+  "branch": "af--issue-4036-single-toast",
+  "tested_base_sha": "n/a (branch head tested as-is; merge of origin/main at 505f432f2db is in its history)",
+  "clean_worktree": {
+    "start": "git status --porcelain empty, HEAD=3a4fa3535f45",
+    "end": "see end_check"
+  },
+  "checkout_path": "/Users/dev/code/music-dj-tools-wt-issue-4036-single-toast",
+  "build_info": {
+    "url": "http://127.0.0.1:8732/api/v1/build-info",
+    "git_sha_full": "3a4fa3535f45ecca444dd43b57839b38ac98f5e2",
+    "git_dirty": false,
+    "also_via_vite_proxy": "http://127.0.0.1:9452/api/v1/build-info (same SHA)"
+  },
+  "servers": {
+    "backend": {
+      "port": 8732,
+      "cwd_verified": "lsof -a -p <pid> -d cwd -> checkout root",
+      "command": "AF_SERVICE_ID=com.opendj.evidence-4061-backend HOME=<scratch>/home OPENDJ_ERROR_SINK_LOG=<scratch>/logs/error-sink.jsonl MDT_DATA_DIR=<scratch>/fixture-data MDT_LIBRARY_MODE=local WEB_CONCURRENCY= nohup uv run --no-sync python -m apps.engine_core serve --data-dir <scratch>/fixture-data --host 127.0.0.1 --port 8732"
+    },
+    "frontend": {
+      "port": 9452,
+      "cwd_verified": "lsof -a -p <pid> -d cwd -> checkout/apps/webui/frontend",
+      "command": "AF_SERVICE_ID=com.opendj.evidence-4061-frontend nohup pnpm dev --host 127.0.0.1 (cwd apps/webui/frontend; vite 6.4.3)"
+    }
+  },
+  "fixture": {
+    "command": "uv run --no-sync python -m apps.webui.frontend.tests.e2e.support.deckload_fixture --data-dir <scratch>/fixture-data --seed-playlists",
+    "tracks": 2,
+    "good_stable_id": "9d67484966a17c8e216ec0c02811bd149e0a7c04",
+    "missing_stable_id": "trackify-e2e-missing-stable-id"
+  },
+  "capture_tool": {
+    "playwright": "1.61.1",
+    "chromium": "149.0.7827.55",
+    "headless": true,
+    "viewport": "1280x800",
+    "query": "?muted=1",
+    "scripts": [
+      "capture.mjs (T1 + C1 run1)",
+      "capture_c1.mjs (C1 run2, waits out boot splash)",
+      "control_c2.mjs (C2 differential)"
+    ]
+  },
+  "checks": {
+    "T1": {
+      "verdict": "PASS",
+      "flow": "/performance?muted=1 -> mode picker -> Trackify (/music-player); toggle_autoplay(false); e2e_prime_feed([missing, good]); e2e_force_load(missing)",
+      "load_started_utc": "2026-09-26T15:11:57.418Z",
+      "toasts_added_during_failed_load_until_advance": [
+        {
+          "text": "Trackify: skipped track (Not Found) Click to copy x",
+          "at_ms": 25
+        }
+      ],
+      "toasts_added_count_until_advance": 1,
+      "toasts_added_full_window_incl_3s_settle": [
+        {
+          "text": "Trackify: skipped track (Not Found) Click to copy x",
+          "at_ms": 25
+        },
+        {
+          "text": "Open DJ: AUDIO CUT decks=1 bpm=? sync=bar cause=unknown last=none Click to copy \u25b8 x",
+          "at_ms": 2778
+        }
+      ],
+      "deck1_could_not_load_toast_seen": false,
+      "skip_toast_visible_ms": 771,
+      "advanced_to_good_ms": 803,
+      "deck_stable_id_after": "9d67484966a17c8e216ec0c02811bd149e0a7c04",
+      "note": "A second toast, \"AUDIO CUT ... cause=unknown\", appears ~2.8 s after load start, after the advance. Control C2 (same flow, loading the GOOD track directly, no failure) shows the same AUDIO CUT toast at ~2.4 s, so it is the headless silence watchdog on the playing good track, not the failed load."
+    },
+    "T2": {
+      "verdict": "PASS",
+      "log": "<data-dir>/logs/webui-client-errors-2026-09-26.log",
+      "deck_load_records_in_T1_window": 1,
+      "record": {
+        "received_at": "2026-09-26T15:11:57.473Z",
+        "event_id": "48db4cdae2e44165",
+        "kind": "ui-error",
+        "message": "Not Found",
+        "context": {
+          "deck": 1,
+          "source": "deck-load",
+          "stage_failedAt": 19,
+          "stage_getTrack": 18
+        },
+        "build_sha": "3a4fa3535f45ecca444dd43b57839b38ac98f5e2"
+      },
+      "stage_failedAt_numeric": true,
+      "network_stored": true,
+      "deck_load_records_after_server_start_total": 3,
+      "total_breakdown": "T1=1, C1 run1=1, C1 run2=1"
+    },
+    "C1": {
+      "verdict": "PASS",
+      "flow": "/performance?muted=1; dispatch({type:load, deck:1, stable_id:missing})",
+      "run1": {
+        "dispatch": {
+          "rejected": true,
+          "error": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id"
+        },
+        "toasts_added": [
+          {
+            "text": "Deck load: Deck 1 could not load the track Click to copy \u25b8 x",
+            "at_ms": 61
+          },
+          {
+            "text": "Open DJ: Performance command failed Click to copy \u25b8 x",
+            "at_ms": 64
+          }
+        ],
+        "deck_load_records": 1,
+        "screenshot": "discarded: taken while the boot splash was still painted"
+      },
+      "run2": {
+        "dispatch": {
+          "rejected": true,
+          "error": "Not Found"
+        },
+        "toasts_added": [
+          {
+            "text": "Deck load: Deck 1 could not load the track Click to copy \u25b8 x",
+            "at_ms": 20
+          },
+          {
+            "text": "Open DJ: Performance command failed - ApiError: Not Found Click to copy \u25b8 x",
+            "at_ms": 23
+          }
+        ],
+        "deck_load_records": 1,
+        "record": {
+          "received_at": "2026-09-26T15:13:47.887Z",
+          "event_id": "f3749fba2e314294",
+          "kind": "ui-error",
+          "message": "Not Found",
+          "context": {
+            "classification": "deck-load",
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 11,
+            "stage_getTrack": 10,
+            "toast_id": "t-sp398p-1"
+          },
+          "build_sha": "3a4fa3535f45ecca444dd43b57839b38ac98f5e2"
+        }
+      },
+      "note": "The engine toast is accompanied by a second, pre-existing \"Performance command failed\" toast on this non-Trackify path; the check only requires the engine toast to still show."
+    },
+    "C2_differential": {
+      "purpose": "attribute the T1 AUDIO CUT toast",
+      "toasts_added": [
+        {
+          "text": "Open DJ: AUDIO CUT decks=1 bpm=? sync=bar cause=unknown last=none Click to copy \u25b8 x",
+          "at_ms": 2355
+        }
+      ],
+      "deck_load_records": 0,
+      "deck_state": "{\"stable_id\":\"9d67484966a17c8e216ec0c02811bd149e0a7c04\",\"playing\":true,\"position_ms\":0,\"duration_ms\":60000}"
+    }
+  },
+  "artifacts_sha256": {
+    "backend.log": "c7945d3632738f288685934e2061c32af262454f8477ab30c99e2a87db86c707",
+    "c1-result.json": "32a0695801efabeacbf60a3c63133c6e1b3773e9468d4d48eb3e47b889fb4691",
+    "capture-result.json": "8f1c9ffdcb1a3fe144351bb56528131910d2eef6a57ab1bbe1ea2516d817730b",
+    "capture.mjs": "844ed1cbe87a25700e621d63496160c7e4c221ba5803cd823faf4ceeaf1f6b10",
+    "capture_c1.mjs": "57529092ae52edd7e0a36514640dffe8bf86ed31ae9c3350a7e6a5f818eb8d9a",
+    "control-c2-result.json": "378ad2eab5e8a2e40fa54616fc9e5118245249e20e5d09dc1b90c2ff2c980355",
+    "control_c2.mjs": "ac3158e9614d70ea28e4b40ac8b71210c9e8fa2df63bcbf44b19de2842fa073b",
+    "frontend.log": "2892b24ee894b604dfd3de6adae82db1bb057d05e26dc0fc3001019a7767600f",
+    "music-dj-tools-pr4061-3a4fa353-music-player-failed-load-one-toast.png": "8934044b60d5e3e40972bb6320ecd800e565464ddb78e69e7d98850c34b9dd06",
+    "music-dj-tools-pr4061-3a4fa353-performance-control-engine-toast.png": "bd6e3d81c87d96dc65b62de703fa42850e191876cf68e7b6507490cc84aedce6",
+    "t2-log-readback.json": "33b39c3601e7d2b8d26803b822aad8edad02f837e2dcfe4498559ee40c18ae95"
+  }
+}
