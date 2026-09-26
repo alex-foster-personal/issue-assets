@@ -1,0 +1,704 @@
+{
+  "repo": "alex-foster-personal/music-dj-tools",
+  "pr": 4039,
+  "head": "85e11970d4c3058b471f5f241168cb5d75eddbce",
+  "tested_base": "cf36185ad981064f913629dc7e42b31053968603",
+  "previously_evidenced_head": "8c90cbfe19f279b178935390e23d4c235ef4a855",
+  "checkout": "/Users/alexfoster/code/music-dj-tools-wt-perfmode15-fix",
+  "clean_worktree": {
+    "before": "HEAD=85e11970d4c3 status --short empty (2026-09-26T11:11:16Z)",
+    "after": "HEAD=85e11970d4c3 status --short empty (after capture, before server shutdown)"
+  },
+  "build_info": {
+    "start": {
+      "git_sha_full": "85e11970d4c3058b471f5f241168cb5d75eddbce",
+      "git_dirty": false,
+      "built_at_utc": "2026-09-26T11:15:06Z",
+      "source": "repo"
+    },
+    "shutdown": {
+      "source": "repo",
+      "engine_version": "0.1.0",
+      "git_sha": "85e11970",
+      "git_sha_full": "85e11970d4c3058b471f5f241168cb5d75eddbce",
+      "git_branch": "af--perfmode15-trackify-no-stems",
+      "git_dirty": false,
+      "built_at_utc": "2026-09-26T11:15:06Z",
+      "built_at_kind": "engine-start",
+      "lane_label": null,
+      "product_name": null,
+      "bundle_identifier": null,
+      "app_version": "0.1.5",
+      "manifest_path": null
+    }
+  },
+  "servers": {
+    "backend": {
+      "port": 8729,
+      "url": "http://127.0.0.1:8729",
+      "listener_cwd": "/Users/alexfoster/code/music-dj-tools-wt-perfmode15-fix",
+      "command": "cd <checkout> && nohup <checkout>/.venv/bin/python <scratch>/run_engine_with_access_log.py serve --data-dir <scratch>/cap4039/data --port 8729 --host 127.0.0.1 --log-level info > backend.log 2>&1 </dev/null &",
+      "note": "run_engine_with_access_log.py = logging.basicConfig(INFO) + apps.engine_core.__main__.main(argv); identical engine, only routes uvicorn.access to stderr so backend /stems requests are countable (engine_core passes log_config=None, so plain 'python -m apps.engine_core serve' prints no access log). apps.webui.server has no /api/v1/build-info, so engine_core serve was used."
+    },
+    "frontend": {
+      "port": 9449,
+      "url": "http://127.0.0.1:9449",
+      "listener_cwd": "/Users/alexfoster/code/music-dj-tools-wt-perfmode15-fix/apps/webui/frontend",
+      "command": "cd <checkout>/apps/webui/frontend && nohup pnpm exec vite dev --host 127.0.0.1 --port 9449 --strictPort > frontend.log 2>&1 </dev/null &"
+    },
+    "ports_source": "just webui-ports (backend 8729, frontend 9449), both verified free before binding",
+    "shutdown": "killed by listener PID (lsof -ti tcp:<port> -sTCP:LISTEN): backend 92411, frontend 83547; both ports verified free after"
+  },
+  "data": {
+    "source": "~/Library/Application Support/com.opendj.desktop (real library, this Mac = silver)",
+    "clone": "cp -c -R (APFS clone) into scratch, deleted after capture",
+    "tracks_rows": 10006,
+    "clone_edits": [
+      "cloudsync-config.json enabled=false (so the clone could not sync to the hub as 'silver')",
+      "removed stale .engine.lock/.engine.parent/.engine.shell.json (engine heartbeat dated Tue 23 Sep 2026)"
+    ],
+    "fixture_tracks": {
+      "outro": "00797e57569bc23a69ca12c35fc3230aeb9f54cb (4 - Sex and Candy, Unions, 254328 ms, has stem bundle)",
+      "next": "44572e846bfa3af55d001ff3690638458718fe16 (Home (feat. AURORA) - Koelsch Remix, 472294 ms, no stem bundle)",
+      "deck3": "0148a22559a18074a0004c3eb7a4a80d99d8919c (Adieu, Tchami, has stem bundle)"
+    }
+  },
+  "capture": {
+    "tool": "Playwright 1.61.1 (node v26.8.2), headless Chromium 149.0.7827.55",
+    "viewport": "1280x800",
+    "launch_args": [
+      "--mute-audio",
+      "--autoplay-policy=no-user-gesture-required"
+    ],
+    "url_query": "?muted=1",
+    "script": "capture-script.mjs"
+  },
+  "actions": {
+    "A": "GET /music-player?muted=1; toggle_autoplay(false); e2e_prime_feed([00797e57, 44572e84]); e2e_force_load(00797e57); sample deck 1 stems status every 100 ms x30; toggle_autoplay(true); dispatch play; dispatch seek to duration-30 s; screenshot A1; poll Trackify query every ~250 ms until the deck holds 44572e84; screenshot A2; positive control fetch('/api/v1/tracks/00797e57/stems')",
+    "B": "GET /performance?muted=1; dispatch load deck 1=00797e57, wait stems ready; load deck 3=0148a225; screenshot B1; click details.mode-picker summary then a.mode-card 'Trackify' (client-side nav); sample decks every 250 ms x20; screenshot B2",
+    "B_control": "GET /performance?muted=1; load deck 1=44572e84 (no bundle, stems unavailable); switch via mode picker; sample deck 1 x12",
+    "C": "GET /performance?muted=1; CDP Network.emulateNetworkConditions downloadThroughput=1048576 B/s; load deck 1=00797e57; wait until a /stems/<part> request starts +2 s; switch to Trackify via mode picker; record requestfailed/requestfinished for stem parts; (run 2 of 2, run 1 kept as results.C_run1)",
+    "T": "GET /music-player?muted=1; prime feed [missing id, 44572e84]; e2e_force_load(missing id); wait 3 s; count [data-toast-dismiss] toasts; screenshot T1"
+  },
+  "results": {
+    "A": {
+      "window_start_utc": "2026-09-26T11:18:41.024Z",
+      "before_load": {
+        "mode": "trackify",
+        "autoplay_enabled": false,
+        "queue_head": null,
+        "last_skip_reason": null,
+        "deck": {
+          "stable_id": null,
+          "playing": false,
+          "position_ms": 0,
+          "duration_ms": null
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      },
+      "stems_status_samples_distinct": [
+        "unavailable"
+      ],
+      "deck1_stems_after_load": {
+        "status": "unavailable",
+        "source": null,
+        "model": null,
+        "layout": null,
+        "available_controls": [],
+        "alignment": null,
+        "controls": {
+          "vocal": {
+            "muted": false,
+            "solo": false,
+            "gain": 0.5
+          },
+          "instrumental": {
+            "muted": false,
+            "solo": false,
+            "gain": 0.5
+          },
+          "drums": {
+            "muted": false,
+            "solo": false,
+            "gain": 0.5
+          }
+        },
+        "error": "stems disabled: Trackify mode has no stems (PERFMODE-15)"
+      },
+      "stem_requests_during_trackify_window": 0,
+      "positive_control_status": 200,
+      "positive_control_counted": 1,
+      "seek_ms": 224328.16326530612,
+      "duration_ms": 254328.16326530612,
+      "a1_state": {
+        "mode": "trackify",
+        "autoplay_enabled": true,
+        "queue_head": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+        "last_skip_reason": null,
+        "deck": {
+          "stable_id": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "position_ms": 225980.7170068027,
+          "duration_ms": 254328.16326530612
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      },
+      "advanced": true,
+      "advance_ms_after_seek": 29087,
+      "a2_state": {
+        "mode": "trackify",
+        "autoplay_enabled": true,
+        "queue_head": "44572e846bfa3af55d001ff3690638458718fe16",
+        "last_skip_reason": "silence dropout stopped 00797e57569bc23a69ca12c35fc3230aeb9f54cb; advanced",
+        "deck": {
+          "stable_id": "44572e846bfa3af55d001ff3690638458718fe16",
+          "playing": true,
+          "position_ms": 1570.5968253968265,
+          "duration_ms": 472293.8775510204
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      },
+      "timeline_tail": [
+        {
+          "dt_ms": 1,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 225992.32698412696,
+          "reason": null
+        },
+        {
+          "dt_ms": 1013,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 227002.39501133785,
+          "reason": null
+        },
+        {
+          "dt_ms": 2024,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 228012.46303854874,
+          "reason": null
+        },
+        {
+          "dt_ms": 3034,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 229022.5310657596,
+          "reason": null
+        },
+        {
+          "dt_ms": 4043,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 230032.59909297051,
+          "reason": null
+        },
+        {
+          "dt_ms": 5054,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 231042.6671201814,
+          "reason": null
+        },
+        {
+          "dt_ms": 6066,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 232052.73514739226,
+          "reason": null
+        },
+        {
+          "dt_ms": 7078,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 233068.60816326528,
+          "reason": null
+        },
+        {
+          "dt_ms": 8092,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 234078.6761904762,
+          "reason": null
+        },
+        {
+          "dt_ms": 9105,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 235094.5492063492,
+          "reason": null
+        },
+        {
+          "dt_ms": 10116,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 236104.61723356007,
+          "reason": null
+        },
+        {
+          "dt_ms": 11132,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 237120.4902494331,
+          "reason": null
+        },
+        {
+          "dt_ms": 12143,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 238130.55827664398,
+          "reason": null
+        },
+        {
+          "dt_ms": 13149,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 239140.62630385486,
+          "reason": null
+        },
+        {
+          "dt_ms": 14163,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 240150.69433106575,
+          "reason": null
+        },
+        {
+          "dt_ms": 15175,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 241166.56734693877,
+          "reason": null
+        },
+        {
+          "dt_ms": 16199,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 242188.24535147392,
+          "reason": null
+        },
+        {
+          "dt_ms": 17207,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 243198.31337868478,
+          "reason": null
+        },
+        {
+          "dt_ms": 18217,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 244208.38140589566,
+          "reason": null
+        },
+        {
+          "dt_ms": 19227,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 245218.44943310658,
+          "reason": null
+        },
+        {
+          "dt_ms": 20236,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 246228.51746031744,
+          "reason": null
+        },
+        {
+          "dt_ms": 21249,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 247238.58548752833,
+          "reason": null
+        },
+        {
+          "dt_ms": 22257,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 248248.6535147392,
+          "reason": null
+        },
+        {
+          "dt_ms": 23270,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 249258.7215419501,
+          "reason": null
+        },
+        {
+          "dt_ms": 24279,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 250268.789569161,
+          "reason": null
+        },
+        {
+          "dt_ms": 25293,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 251284.662585034,
+          "reason": null
+        },
+        {
+          "dt_ms": 26301,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 252288.92562358273,
+          "reason": null
+        },
+        {
+          "dt_ms": 27313,
+          "sid": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": true,
+          "pos": 253304.79863945575,
+          "reason": null
+        },
+        {
+          "dt_ms": 28078,
+          "sid": null,
+          "playing": false,
+          "pos": 0,
+          "reason": "silence dropout stopped 00797e57569bc23a69ca12c35fc3230aeb9f54cb; advanced"
+        },
+        {
+          "dt_ms": 28331,
+          "sid": null,
+          "playing": false,
+          "pos": 0,
+          "reason": "silence dropout stopped 00797e57569bc23a69ca12c35fc3230aeb9f54cb; advanced"
+        },
+        {
+          "dt_ms": 28584,
+          "sid": null,
+          "playing": false,
+          "pos": 0,
+          "reason": "silence dropout stopped 00797e57569bc23a69ca12c35fc3230aeb9f54cb; advanced"
+        },
+        {
+          "dt_ms": 28836,
+          "sid": null,
+          "playing": false,
+          "pos": 0,
+          "reason": "silence dropout stopped 00797e57569bc23a69ca12c35fc3230aeb9f54cb; advanced"
+        },
+        {
+          "dt_ms": 29087,
+          "sid": "44572e846bfa3af55d001ff3690638458718fe16",
+          "playing": true,
+          "pos": 49.68979591836842,
+          "reason": "silence dropout stopped 00797e57569bc23a69ca12c35fc3230aeb9f54cb; advanced"
+        }
+      ],
+      "window_end_utc": "2026-09-26T11:19:17.392Z"
+    },
+    "B": {
+      "gig_decks": {
+        "1": {
+          "stable_id": "00797e57569bc23a69ca12c35fc3230aeb9f54cb",
+          "playing": false,
+          "stems": "ready",
+          "stems_error": null
+        },
+        "2": {
+          "stable_id": null,
+          "playing": false,
+          "stems": "unavailable",
+          "stems_error": null
+        },
+        "3": {
+          "stable_id": "0148a22559a18074a0004c3eb7a4a80d99d8919c",
+          "playing": false,
+          "stems": "loading",
+          "stems_error": null
+        },
+        "4": {
+          "stable_id": null,
+          "playing": false,
+          "stems": "unavailable",
+          "stems_error": null
+        }
+      },
+      "gig_stem_requests": 10,
+      "stem_requests_after_switch": 0,
+      "first_sample": {
+        "dt_ms": 1350,
+        "decks": {
+          "1": {
+            "stable_id": null,
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": null
+          },
+          "2": {
+            "stable_id": null,
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": null
+          },
+          "3": {
+            "stable_id": null,
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": null
+          },
+          "4": {
+            "stable_id": null,
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": null
+          }
+        }
+      },
+      "last_sample": {
+        "dt_ms": 6221,
+        "decks": {
+          "1": {
+            "stable_id": null,
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": null
+          },
+          "2": {
+            "stable_id": null,
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": null
+          },
+          "3": {
+            "stable_id": null,
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": null
+          },
+          "4": {
+            "stable_id": null,
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": null
+          }
+        }
+      },
+      "gig_ids_still_loaded_after_5s": 0
+    },
+    "B_control": {
+      "gig_decks": {
+        "1": {
+          "stable_id": "44572e846bfa3af55d001ff3690638458718fe16",
+          "playing": false,
+          "stems": "unavailable",
+          "stems_error": "no stem bundle advertised"
+        },
+        "2": {
+          "stable_id": null,
+          "playing": false,
+          "stems": "unavailable",
+          "stems_error": null
+        },
+        "3": {
+          "stable_id": null,
+          "playing": false,
+          "stems": "unavailable",
+          "stems_error": null
+        },
+        "4": {
+          "stable_id": null,
+          "playing": false,
+          "stems": "unavailable",
+          "stems_error": null
+        }
+      },
+      "deck1_samples": [
+        {
+          "dt_ms": 137,
+          "deck1": {
+            "stable_id": "44572e846bfa3af55d001ff3690638458718fe16",
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": "no stem bundle advertised"
+          }
+        },
+        {
+          "dt_ms": 902,
+          "deck1": {
+            "stable_id": "44572e846bfa3af55d001ff3690638458718fe16",
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": "no stem bundle advertised"
+          }
+        },
+        {
+          "dt_ms": 1672,
+          "deck1": {
+            "stable_id": "44572e846bfa3af55d001ff3690638458718fe16",
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": "no stem bundle advertised"
+          }
+        },
+        {
+          "dt_ms": 2444,
+          "deck1": {
+            "stable_id": "44572e846bfa3af55d001ff3690638458718fe16",
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": "no stem bundle advertised"
+          }
+        },
+        {
+          "dt_ms": 2966,
+          "deck1": {
+            "stable_id": "44572e846bfa3af55d001ff3690638458718fe16",
+            "playing": false,
+            "stems": "unavailable",
+            "stems_error": "no stem bundle advertised"
+          }
+        }
+      ],
+      "kept": true,
+      "stem_requests_after_switch": 0
+    },
+    "C": {
+      "throttle_bytes_per_s": 1048576,
+      "parts_started": [
+        "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/vocals",
+        "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/drums",
+        "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/bass",
+        "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/other"
+      ],
+      "parts_finished_before_switch": 0,
+      "switch_click_utc": "2026-09-26T11:21:16.848Z",
+      "trackify_ipc_seen_ms_after_click": 2572,
+      "parts_failed": [
+        {
+          "p": "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/vocals",
+          "err": "net::ERR_ABORTED",
+          "ms_after_switch": 2571,
+          "ms_after_trackify_ipc_seen": -1
+        },
+        {
+          "p": "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/drums",
+          "err": "net::ERR_ABORTED",
+          "ms_after_switch": 2572,
+          "ms_after_trackify_ipc_seen": 0
+        },
+        {
+          "p": "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/bass",
+          "err": "net::ERR_ABORTED",
+          "ms_after_switch": 2572,
+          "ms_after_trackify_ipc_seen": 0
+        },
+        {
+          "p": "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/other",
+          "err": "net::ERR_ABORTED",
+          "ms_after_switch": 2572,
+          "ms_after_trackify_ipc_seen": 0
+        }
+      ],
+      "parts_finished_total": 0,
+      "new_stem_requests_after_switch": 0
+    },
+    "C_run1": {
+      "throttle_bytes_per_s": 1048576,
+      "parts_started": [
+        "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/vocals",
+        "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/drums",
+        "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/bass",
+        "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/other"
+      ],
+      "parts_finished_before_switch": 0,
+      "parts_failed": [
+        {
+          "p": "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/vocals",
+          "err": "net::ERR_ABORTED",
+          "ms_after_switch": 11850
+        },
+        {
+          "p": "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/drums",
+          "err": "net::ERR_ABORTED",
+          "ms_after_switch": 11851
+        },
+        {
+          "p": "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/bass",
+          "err": "net::ERR_ABORTED",
+          "ms_after_switch": 11851
+        },
+        {
+          "p": "/api/v1/tracks/00797e57569bc23a69ca12c35fc3230aeb9f54cb/stems/other",
+          "err": "net::ERR_ABORTED",
+          "ms_after_switch": 11851
+        }
+      ],
+      "parts_finished_total": 0,
+      "new_stem_requests_after_switch": 0
+    },
+    "toasts": {
+      "count": 2,
+      "texts": [
+        "Deck load: Deck 1 could not load the track Click to copy \u25b8 x",
+        "Trackify: skipped track (TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id) Click to copy x"
+      ]
+    }
+  },
+  "backend_stem_log": {
+    "file": "backend-stem-access-lines.log",
+    "timezone": "backend log timestamps are local BST (UTC+1)",
+    "A_window": "lines 155-262 (11:18:40Z-11:19:17Z): exactly 1 track /stems line, 12:19:17,089 BST = 11:19:17Z = the deliberate positive control",
+    "B_after_switch": "switch click ~11:19:48.8Z; last track-stems line 12:19:47,284 BST (Gig deck 3 bundle); none after the switch; 12:19:56 /api/v1/stems/tiers is the B_control Gig page mount, not a track stems request",
+    "C_run2": "all 5 track-stem lines at 12:21:14 BST (11:21:14Z), before the switch click at 11:21:16.848Z; none after"
+  },
+  "artifacts": [
+    {
+      "file": "backend-stem-access-lines.log",
+      "path": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/evidence-4039-85e1197/backend-stem-access-lines.log",
+      "bytes": 4620,
+      "sha256": "b2de751529aec41d3d6c04d8d3c2d12c868943bc36090128bd0b5b3c1e49f0f8"
+    },
+    {
+      "file": "capture-script.mjs",
+      "path": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/evidence-4039-85e1197/capture-script.mjs",
+      "bytes": 13624,
+      "sha256": "d58eeec9077022b73fd1f9552c2f112cb8de82ec1117ec65bf0f0d187d2223dc"
+    },
+    {
+      "file": "music-dj-tools-pr4039-85e1197-A1-trackify-playing-near-outro.png",
+      "path": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/evidence-4039-85e1197/music-dj-tools-pr4039-85e1197-A1-trackify-playing-near-outro.png",
+      "bytes": 16545,
+      "sha256": "1de5569c1eb20001317e6e0b42d062a2f41f84638b21e37cc17eee1928fb414c"
+    },
+    {
+      "file": "music-dj-tools-pr4039-85e1197-A2-trackify-advanced-to-next.png",
+      "path": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/evidence-4039-85e1197/music-dj-tools-pr4039-85e1197-A2-trackify-advanced-to-next.png",
+      "bytes": 32957,
+      "sha256": "ab87cfc7509de1b90c20ef27015896766f99aff46ccaf9fd47663470dbfe9568"
+    },
+    {
+      "file": "music-dj-tools-pr4039-85e1197-B1-gig-deck1-stems-ready-deck3-loaded.png",
+      "path": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/evidence-4039-85e1197/music-dj-tools-pr4039-85e1197-B1-gig-deck1-stems-ready-deck3-loaded.png",
+      "bytes": 229245,
+      "sha256": "60d4a35b7fe9e1252762bf97206c55e8f127a01fab9298925fab24f74fec4172"
+    },
+    {
+      "file": "music-dj-tools-pr4039-85e1197-B2-trackify-after-mount-decks-emptied.png",
+      "path": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/evidence-4039-85e1197/music-dj-tools-pr4039-85e1197-B2-trackify-after-mount-decks-emptied.png",
+      "bytes": 13344,
+      "sha256": "380d4d282f6dd978518a9f77b8154df3535fef4b4315d06e65a4dfdc14efdf1a"
+    },
+    {
+      "file": "music-dj-tools-pr4039-85e1197-T1-trackify-failed-load-toasts.png",
+      "path": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/evidence-4039-85e1197/music-dj-tools-pr4039-85e1197-T1-trackify-failed-load-toasts.png",
+      "bytes": 40841,
+      "sha256": "ebe8b5baa301a04abde655ac594d969a5a1e28ecc65720b9fbdae1f0180d0bfc"
+    },
+    {
+      "file": "run_engine_with_access_log.py",
+      "path": "/private/tmp/claude-502/-Users-alexfoster-code-music-dj-tools-lanes/a070bdcc-79d4-4207-866d-e5949fe5b2b9/scratchpad/evidence-4039-85e1197/run_engine_with_access_log.py",
+      "bytes": 305,
+      "sha256": "de065611be020aa7923ca293a68bd45e947787596b6abb2a87a9a4a8b5ec2b6a"
+    }
+  ]
+}
