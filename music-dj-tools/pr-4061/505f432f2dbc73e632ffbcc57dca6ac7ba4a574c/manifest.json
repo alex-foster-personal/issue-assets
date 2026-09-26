@@ -1,0 +1,214 @@
+{
+  "repo": "alex-foster-personal/music-dj-tools",
+  "pr": 4061,
+  "issue": 4036,
+  "requirement": "PERFMODE-15",
+  "head_sha": "505f432f2dbc73e632ffbcc57dca6ac7ba4a574c",
+  "tested_base_sha_note": "HEAD is a merge of origin/main; second parent 9afa8da8e03 (main at merge time)",
+  "clean_worktree": {
+    "before": "git status --porcelain empty",
+    "after": "see final check in report"
+  },
+  "checkout": "/Users/dev/code/music-dj-tools-wt-issue-4036-single-toast",
+  "build_info": {
+    "source": "repo",
+    "engine_version": "0.1.0",
+    "git_sha": "505f432f",
+    "git_sha_full": "505f432f2dbc73e632ffbcc57dca6ac7ba4a574c",
+    "git_branch": "af--issue-4036-single-toast",
+    "git_dirty": false,
+    "built_at_utc": "2026-09-26T14:52:18Z",
+    "built_at_kind": "engine-start",
+    "lane_label": null,
+    "product_name": null,
+    "bundle_identifier": null,
+    "app_version": "0.1.5",
+    "manifest_path": null
+  },
+  "servers": {
+    "backend": {
+      "port": 8734,
+      "cmd": "AF_SERVICE_ID=com.opendj.evidence-4061-backend MDT_DATA_DIR=<scratch>/fixture-data MDT_LIBRARY_MODE=local WEB_CONCURRENCY= HOME=<scratch>/sandbox-home OPENDJ_ERROR_SINK_LOG=<scratch>/logs/error-sink.jsonl uv run --no-sync python -m apps.engine_core serve --data-dir <scratch>/fixture-data --host 127.0.0.1 --port 8734"
+    },
+    "frontend": {
+      "port": 9454,
+      "cmd": "AF_SERVICE_ID=com.opendj.evidence-4061-frontend pnpm dev --host 127.0.0.1 (cwd apps/webui/frontend; proxy /api -> 127.0.0.1:8734)"
+    },
+    "listener_cwd_proof": "port 8734 pid 72748\npython3.1 72748 dev  cwd    DIR   1,15     2880 153678255 /Users/dev/code/music-dj-tools-wt-issue-4036-single-toast\nport 9454 pid 72908\nnode    72908 dev  cwd    DIR   1,15      864 153680849 /Users/dev/code/music-dj-tools-wt-issue-4036-single-toast/apps/webui/frontend\n"
+  },
+  "fixture": {
+    "cmd": "uv run --no-sync python -m apps.webui.frontend.tests.e2e.support.deckload_fixture --data-dir <scratch>/fixture-data --seed-playlists",
+    "tracks": 2,
+    "good_stable_id": "5898d4d53d2c37c362490179c1d594dcfc6b34d5",
+    "missing_stable_id": "trackify-e2e-missing-stable-id"
+  },
+  "capture_tool": {
+    "playwright": "1.61.1",
+    "chromium": "149.0.7827.55",
+    "headless": true,
+    "viewport": "1280x800",
+    "query": "?muted=1",
+    "scripts": [
+      "capture.mjs",
+      "attribution.mjs"
+    ]
+  },
+  "checks": {
+    "T1": {
+      "route": "/performance -> mode picker -> Trackify -> /music-player",
+      "actions": "toggle_autoplay(false); e2e_prime_feed([missing, good]); e2e_force_load(missing)",
+      "window_utc": [
+        "2026-09-26T14:53:12.102Z",
+        "2026-09-26T14:53:16.598Z"
+      ],
+      "toasts_added_total_in_window": 2,
+      "toasts_added_texts": [
+        "Trackify: skipped track (Not Found) Click to copy      x",
+        "Open DJ: AUDIO CUT decks=1 bpm=? sync=bar cause=unknown last=none Click to copy     \u25b8 x"
+      ],
+      "toasts_attributable_to_failed_load": 1,
+      "engine_deck1_toast_added": false,
+      "live_toasts_at_screenshot": [
+        "Trackify: skipped track (Not Found) Click to copy      x"
+      ],
+      "advanced_to_good": true,
+      "second_toast_attribution": {
+        "note": "The AUDIO CUT toast lands ~2.3-2.4 s after load, from the silence watchdog on the NEXT (good) track; a clean Trackify load of the good track with no failure raises the same toast, so it is not caused by the failed load.",
+        "failed_then_advance_repeat": {
+          "label": "T1-repeat: failed Trackify load, feed [missing, good]",
+          "start": "2026-09-26T14:53:47.249Z",
+          "end": "2026-09-26T14:53:55.689Z",
+          "added": [
+            {
+              "ms": 18,
+              "text": "Trackify: skipped track (TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id) Click to copy      x",
+              "deck_stable_id": null,
+              "deck_playing": false
+            },
+            {
+              "ms": 2432,
+              "text": "Open DJ: AUDIO CUT decks=1 bpm=? sync=bar cause=unknown last=none Click to copy     \u25b8 x",
+              "deck_stable_id": "5898d4d53d2c37c362490179c1d594dcfc6b34d5",
+              "deck_playing": false
+            }
+          ],
+          "deck_after": {
+            "stable_id": "5898d4d53d2c37c362490179c1d594dcfc6b34d5",
+            "playing": false
+          }
+        },
+        "clean_load_control": {
+          "label": "control: clean Trackify load of the good track, no failure",
+          "start": "2026-09-26T14:53:56.592Z",
+          "end": "2026-09-26T14:54:04.876Z",
+          "added": [
+            {
+              "ms": 2287,
+              "text": "Open DJ: AUDIO CUT decks=1 bpm=? sync=bar cause=unknown last=none Click to copy     \u25b8 x",
+              "deck_stable_id": "5898d4d53d2c37c362490179c1d594dcfc6b34d5",
+              "deck_playing": false
+            }
+          ],
+          "deck_after": {
+            "stable_id": "5898d4d53d2c37c362490179c1d594dcfc6b34d5",
+            "playing": false
+          }
+        }
+      },
+      "screenshot": "music-dj-tools-pr4061-505f432f-music-player-T1-failed-trackify-load-one-toast.png"
+    },
+    "T2": {
+      "source": "<scratch>/fixture-data/logs/webui-client-errors-2026-09-26.log (backend's own record)",
+      "start_utc": "2026-09-26T14:52:10.000Z",
+      "deck_load_records_total": 3,
+      "per_window": {
+        "T1": [
+          "c890ad1ae2e84a8d"
+        ],
+        "C1": [
+          "b374a0e4aa184cd4"
+        ],
+        "T1_repeat": [
+          "4173f48046a04495"
+        ],
+        "clean_load_control": []
+      },
+      "records": [
+        {
+          "event_id": "c890ad1ae2e84a8d",
+          "received_at": "2026-09-26T14:53:12.135Z",
+          "kind": "ui-error",
+          "message": "Not Found",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 25,
+            "stage_getTrack": 24
+          },
+          "url": "http://127.0.0.1:9454/music-player",
+          "build_sha": "505f432f2dbc73e632ffbcc57dca6ac7ba4a574c",
+          "error_id": "eid-f905127b2bc1"
+        },
+        {
+          "event_id": "b374a0e4aa184cd4",
+          "received_at": "2026-09-26T14:53:18.246Z",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "classification": "deck-load",
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 15,
+            "stage_fetchAudio": 9,
+            "toast_id": "t-dqd907-1"
+          },
+          "url": "http://127.0.0.1:9454/performance?muted=1&playlist=all",
+          "build_sha": "505f432f2dbc73e632ffbcc57dca6ac7ba4a574c",
+          "error_id": "eid-7480e3f4e4d4"
+        },
+        {
+          "event_id": "4173f48046a04495",
+          "received_at": "2026-09-26T14:53:47.269Z",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 10,
+            "stage_fetchAudio": 8
+          },
+          "url": "http://127.0.0.1:9454/music-player",
+          "build_sha": "505f432f2dbc73e632ffbcc57dca6ac7ba4a574c",
+          "error_id": "eid-85675dc4c7de"
+        }
+      ]
+    },
+    "C1": {
+      "route": "/performance",
+      "action": "musicDjToolsPerformance.dispatch({type:'load', deck:1, stable_id:missing})",
+      "window_utc": [
+        "2026-09-26T14:53:18.223Z",
+        "2026-09-26T14:53:20.208Z"
+      ],
+      "rejected_with": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+      "toasts_added": [
+        "Deck load: Deck 1 could not load the track Click to copy     \u25b8 x",
+        "Open DJ: Performance command failed Click to copy     \u25b8 x"
+      ],
+      "engine_toast_shown": true,
+      "screenshot": "music-dj-tools-pr4061-505f432f-performance-C1-gig-failed-load-engine-toast.png"
+    }
+  },
+  "before_state_reference": "at 85e11970d4c a failed Trackify load showed 2 toasts (T1 in PR #4039 evidence); not re-captured here",
+  "artifacts_sha256": {
+    "attribution-result.json": "af6419119a2e9967b947a8e65eaeeccc716e7f69e31f04d1e41b4e257666c253",
+    "attribution.mjs": "35876d844cc84474a31b4d65edd6a2dcc084f998f5660f033bab3640b74d35cf",
+    "build-info.json": "61899e8ccab1fd843794137bd58418c2b3c070ad59a6206347fb485608afb27f",
+    "capture-result.json": "12025118d16a77248f7565ffe9970db22516dabea9c3c0c1ffc3528e4001cd1c",
+    "capture.mjs": "ca9d5f332e64fccd616f8ddf237a135bf98513512d01c7fe020773f92ef98783",
+    "listeners.txt": "0620307549735717b456c940e0366d62189648df3dbe1312684dfca9dd41d287",
+    "music-dj-tools-pr4061-505f432f-music-player-T1-failed-trackify-load-one-toast.png": "8934044b60d5e3e40972bb6320ecd800e565464ddb78e69e7d98850c34b9dd06",
+    "music-dj-tools-pr4061-505f432f-performance-C1-gig-failed-load-engine-toast.png": "af7dba98b3ecf55f97189bc5f5bed80c62cffeeb4b506df9db1ccd491f5f85fc",
+    "t2-deck-load-log-records.json": "d5f2f18ae570ce34eb4a854e091a7003fc3d4cb7304a7566d5d33c4d499fbf99"
+  }
+}
