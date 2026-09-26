@@ -1,0 +1,462 @@
+{
+  "repo": "alex-foster-personal/music-dj-tools",
+  "pr": 4061,
+  "issue": 4036,
+  "requirement": "PERFMODE-15 (one-toast clause)",
+  "head_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f",
+  "branch": "af--issue-4036-single-toast",
+  "tested_base_sha": "n/a; head is a merge of main 95ec1413907 into prior evidenced head 3a4fa3535f45. git diff 3a4fa35..4b4cb11 touches no apps/ file (only .github, docs, ops, tests/scripts, reqs.json, REQUIREMENTS.md).",
+  "clean_worktree": {
+    "start": "git status --short empty, HEAD=4b4cb1105858d7d01d5117ff1e332c13c7489c4f",
+    "end": "git status --short empty, HEAD=4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+  },
+  "checkout_path": "/Users/dev/code/music-dj-tools-wt-issue-4036-single-toast",
+  "build_info": {
+    "git_sha_full": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f",
+    "git_dirty": false,
+    "git_branch": "af--issue-4036-single-toast",
+    "built_at_utc": "2026-09-26T18:48:30Z",
+    "built_at_kind": "engine-start",
+    "url": "http://127.0.0.1:8732/api/v1/build-info",
+    "also_via_vite_proxy": "http://127.0.0.1:9452/api/v1/build-info (identical)"
+  },
+  "servers": {
+    "backend": {
+      "port": 8732,
+      "cwd_verified": "lsof -a -p <pid> -d cwd -> checkout root",
+      "command": "AF_SERVICE_ID=com.opendj.evidence-4061-backend HOME=<scratch>/home OPENDJ_ERROR_SINK_LOG=<scratch>/logs/error-sink.jsonl MDT_DATA_DIR=<scratch>/fixture-data MDT_LIBRARY_MODE=local WEB_CONCURRENCY= nohup uv run --no-sync python -m apps.engine_core serve --data-dir <scratch>/fixture-data --host 127.0.0.1 --port 8732"
+    },
+    "frontend": {
+      "port": 9452,
+      "cwd_verified": "lsof -a -p <pid> -d cwd -> checkout/apps/webui/frontend",
+      "command": "AF_SERVICE_ID=com.opendj.evidence-4061-frontend nohup pnpm dev --host 127.0.0.1 (cwd apps/webui/frontend)"
+    },
+    "stopped": "killed by listener PID; ports 8732/9452 confirmed free"
+  },
+  "fixture": {
+    "command": "uv run --no-sync python -m apps.webui.frontend.tests.e2e.support.deckload_fixture --data-dir <scratch>/fixture-data --seed-playlists",
+    "tracks": 2,
+    "good_stable_id": "5c8815ea0f9751326e3fb9df1bd0373b642b5476",
+    "missing_stable_id": "trackify-e2e-missing-stable-id",
+    "deleted_after": true
+  },
+  "capture_tool": {
+    "playwright": "1.61.1",
+    "chromium": "149.0.7827.55",
+    "headless": true,
+    "viewport": "1280x800",
+    "query": "?muted=1",
+    "scripts": [
+      "capture.mjs (T1+C1+C2; attempts 1-9)",
+      "capture_t1.mjs (T1 rerun, screenshot on first observed toast)",
+      "capture_c2.mjs (C2 differential rerun)"
+    ]
+  },
+  "environment_caveat": "Host load average 75-167 on 10 cores during the whole run (Spotlight/XProtect/1Password/other agents). Prior capture at 3a4fa35 advanced at +803 ms; here the GOOD fixture track repeatedly failed Trackify's 2000 ms load-settle budget, producing a second, separate skip toast (\"load did not settle within 2000ms\").",
+  "checks": {
+    "T1": {
+      "verdict": "PARTIAL: one-toast clause PASS; advance-to-good-track NOT DEMONSTRATED (environment)",
+      "flow": "/performance?muted=1 -> mode picker -> Trackify (/music-player); toggle_autoplay(false); e2e_prime_feed([missing, good]); e2e_force_load(missing)",
+      "final_run": {
+        "load_started_utc": "2026-09-26T19:10:41.116Z",
+        "toasts_added": [
+          {
+            "text": "Trackify: skipped track (TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id) Click to copy x",
+            "at_ms": 26
+          },
+          {
+            "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+            "at_ms": 3235
+          }
+        ],
+        "failed_load_toasts": 1,
+        "failed_load_toast_at_ms": 26,
+        "engine_deck1_toasts": 0,
+        "second_toast_attribution": "settle timeout of the GOOD track at +3235 ms, not the failed load (see C2)",
+        "deck_stable_id_seen_good_at_ms": 3547,
+        "deck_stable_id_after": null
+      },
+      "all_attempts": {
+        "attempt1-cold": {
+          "t1_load_started_utc": "2026-09-26T18:50:53.102Z",
+          "toasts_observed": [],
+          "engine_deck1_toasts": 0,
+          "failed_load_skip_toasts": 0
+        },
+        "attempt2-timeout": {
+          "t1_load_started_utc": "2026-09-26T18:51:52.542Z",
+          "toasts_observed": [],
+          "engine_deck1_toasts": 0,
+          "failed_load_skip_toasts": 0
+        },
+        "attempt3-settle-timeout": {
+          "t1_load_started_utc": "2026-09-26T18:53:41.151Z",
+          "toasts_observed": [
+            {
+              "text": "Trackify: skipped track (TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+              "at_ms": 199
+            },
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 2210
+            },
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 8466
+            }
+          ],
+          "engine_deck1_toasts": 0,
+          "failed_load_skip_toasts": 1
+        },
+        "attempt4-fail": {
+          "t1_load_started_utc": "2026-09-26T18:55:30.353Z",
+          "toasts_observed": [
+            {
+              "text": "Trackify: skipped track (Not Found) Click to copy x",
+              "at_ms": 261
+            },
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 2267
+            },
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 19980
+            }
+          ],
+          "engine_deck1_toasts": 0,
+          "failed_load_skip_toasts": 1
+        },
+        "attempt5-fail": {
+          "t1_load_started_utc": "2026-09-26T18:56:56.148Z",
+          "toasts_observed": [
+            {
+              "text": "Trackify: skipped track (TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+              "at_ms": 364
+            },
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 2378
+            },
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 14082
+            }
+          ],
+          "engine_deck1_toasts": 0,
+          "failed_load_skip_toasts": 1
+        },
+        "attempt6-fail": {
+          "t1_load_started_utc": "2026-09-26T18:58:34.086Z",
+          "toasts_observed": [],
+          "engine_deck1_toasts": 0,
+          "failed_load_skip_toasts": 0
+        },
+        "attempt7-fail": {
+          "t1_load_started_utc": "2026-09-26T19:00:13.672Z",
+          "toasts_observed": [
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 1443
+            },
+            {
+              "text": "Trackify: skipped track (TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+              "at_ms": 18149
+            },
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 19660
+            },
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 34936
+            }
+          ],
+          "engine_deck1_toasts": 0,
+          "failed_load_skip_toasts": 1
+        },
+        "attempt8-fail": {
+          "t1_load_started_utc": "2026-09-26T19:01:53.454Z",
+          "toasts_observed": [
+            {
+              "text": "Trackify: skipped track (TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+              "at_ms": 552
+            },
+            {
+              "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+              "at_ms": 2565
+            }
+          ],
+          "engine_deck1_toasts": 0,
+          "failed_load_skip_toasts": 1
+        },
+        "attempt9-fail": {
+          "t1_load_started_utc": null,
+          "toasts_observed": [],
+          "engine_deck1_toasts": 0,
+          "failed_load_skip_toasts": 0
+        }
+      },
+      "summary": "Across every attempt with an observer log (attempts 3-8 plus final rerun), the not-found load raised exactly 1 toast (the Trackify skip toast) and 0 \"Deck 1 could not load the track\" engine toasts."
+    },
+    "T2": {
+      "verdict": "PASS",
+      "log": "<data-dir>/logs/webui-client-errors-2026-09-26.log",
+      "final_run_window": [
+        "2026-09-26T19:10:41.116Z",
+        "2026-09-26T19:10:47.796Z"
+      ],
+      "deck_load_records_in_window": [
+        {
+          "received_at": "2026-09-26T19:10:41.165Z",
+          "event_id": "9a19171999c244f8",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 20,
+            "stage_fetchAnlz": 18
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        }
+      ],
+      "deck_load_records_total": 11,
+      "failed_loads_total": 11,
+      "build_sha_all_match": true,
+      "note": "11 deck-load records in the whole log; every one is a not-found load (8 T1 attempts + T1 rerun + C1 + C2 = 11 failed loads). 0 records for any settle-timeout skip. Every record in the log (19) carries build_sha = head.",
+      "all_deck_load_records": [
+        {
+          "received_at": "2026-09-26T18:50:53.489Z",
+          "event_id": "68515757be30424a",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 186,
+            "stage_fetchHotCues": 183
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T18:51:59.782Z",
+          "event_id": "eff1daccd1184d14",
+          "kind": "ui-error",
+          "message": "Not Found",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 168,
+            "stage_getTrack": 167
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T18:53:41.378Z",
+          "event_id": "e1e72f7f8a89402f",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 168,
+            "stage_fetchHotCues": 154
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T18:55:30.713Z",
+          "event_id": "8d130bdce9bc40f8",
+          "kind": "ui-error",
+          "message": "Not Found",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 243,
+            "stage_getTrack": 240
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T18:56:56.659Z",
+          "event_id": "d9baa65be6e14f26",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 330,
+            "stage_fetchAudio": 327
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T18:58:39.917Z",
+          "event_id": "9d6b4f3c8df8432e",
+          "kind": "ui-error",
+          "message": "Not Found",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 441,
+            "stage_getTrack": 440
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T19:00:32.068Z",
+          "event_id": "93a1feaf532f4b5d",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 486,
+            "stage_fetchAudio": 484
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T19:01:54.195Z",
+          "event_id": "c3549bd430b74143",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 533,
+            "stage_fetchAudio": 530
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T19:02:34.326Z",
+          "event_id": "53f8045be5d64313",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "classification": "deck-load",
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 641,
+            "stage_fetchAudio": 639,
+            "toast_id": "t-n2j1n6-1"
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T19:09:10.406Z",
+          "event_id": "fb098039176b4039",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 389,
+            "stage_fetchAnlz": 388
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        },
+        {
+          "received_at": "2026-09-26T19:10:41.165Z",
+          "event_id": "9a19171999c244f8",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 20,
+            "stage_fetchAnlz": 18
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        }
+      ]
+    },
+    "C1": {
+      "verdict": "PASS",
+      "flow": "/performance?muted=1; wait out boot splash; dispatch({type:load, deck:1, stable_id:missing})",
+      "run": "attempt8",
+      "dispatch": {
+        "rejected": true,
+        "error": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id"
+      },
+      "toasts_added": [
+        {
+          "text": "Deck load: Deck 1 could not load the track Click to copy \u25b8 x",
+          "at_ms": 654
+        },
+        {
+          "text": "Open DJ: Performance command failed Click to copy \u25b8 x",
+          "at_ms": 659
+        }
+      ],
+      "engine_deck1_toasts": 1,
+      "deck_load_records_in_window": [
+        {
+          "received_at": "2026-09-26T19:02:34.326Z",
+          "event_id": "53f8045be5d64313",
+          "kind": "ui-error",
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "classification": "deck-load",
+            "deck": 1,
+            "source": "deck-load",
+            "stage_failedAt": 641,
+            "stage_fetchAudio": 639,
+            "toast_id": "t-n2j1n6-1"
+          },
+          "build_sha": "4b4cb1105858d7d01d5117ff1e332c13c7489c4f"
+        }
+      ],
+      "note": "The pre-existing \"Performance command failed\" dispatcher toast also appears; out of scope."
+    },
+    "C2_differential": {
+      "verdict": "Attributes the second T1 toast; AUDIO CUT not reached",
+      "flow": "same as T1 but e2e_force_load(good)",
+      "load_started_utc": "2026-09-26T19:09:05.726Z",
+      "toasts_added": [
+        {
+          "text": "Trackify: skipped track (Trackify load did not settle within 2000ms) Click to copy x",
+          "at_ms": 3339
+        },
+        {
+          "text": "Trackify: skipped track (TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id) Click to copy x",
+          "at_ms": 4590
+        }
+      ],
+      "state": {
+        "mode": "trackify",
+        "autoplay_enabled": false,
+        "queue_head": null,
+        "last_skip_reason": "skipped trackify-e2e-missing-stable-id: TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+        "deck": {
+          "stable_id": null,
+          "playing": false,
+          "position_ms": 0,
+          "duration_ms": null
+        },
+        "feed_epoch": 1,
+        "feed_scope": "all_tracks"
+      },
+      "deck_load_records_network": [
+        {
+          "message": "TRACK_NOT_FOUND: unknown stable_id trackify-e2e-missing-stable-id",
+          "context": {
+            "source": "deck-load",
+            "deck": 1,
+            "stage_failedAt": 389,
+            "stage_fetchAnlz": 388
+          },
+          "stored": true,
+          "event_id": "fb098039176b4039"
+        }
+      ],
+      "finding": "Under this host load a CLEAN load of the good track also failed the 2000 ms settle budget (skip toast at +3339 ms, 0 deck-load records for it); the feed then advanced to the missing entry, which produced 1 skip toast, 0 engine toasts, 1 deck-load record. The AUDIO CUT watchdog toast seen at 3a4fa35 was not reached because no track reached playback in C2; it was seen once in attempt 2 (T1) at ~+15 s."
+    }
+  },
+  "artifacts_sha256": {
+    "music-dj-tools-pr4061-4b4cb110-music-player-failed-load-skip-toast-plus-settle-timeout.png": "dbff1cc7750a42fcd1b75291cd8de99c7e9f447404a0e16541d7d6f32f745f8a",
+    "music-dj-tools-pr4061-4b4cb110-performance-control-engine-toast.png": "0547f7084934f3c26c10e5924bfee2182ba9b0e5b5def86bce98480bd2b3ca37"
+  }
+}
