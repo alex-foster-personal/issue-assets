@@ -1,0 +1,64 @@
+{
+  "repo": "alex-foster-personal/music-dj-tools",
+  "issue": 7902,
+  "pr": 7903,
+  "head_sha": "406d86f3c470e716b2a78fdfd90c344fa74198be",
+  "base": {
+    "ref": "main",
+    "pr_base_oid": "2aaf86dfe3796ecbcae39c6eb3234115d015dcfb",
+    "note": "head checked out as-is, not merged onto base"
+  },
+  "verdict": "PASS",
+  "superseded": "A first capture at 798e126b (the SHA in the coordinator's message) passed too, but the head moved to 406d86f3 during capture with frontend logic changes (auto-play-next-plan.ts, auto-play-next.svelte.ts, +page.svelte), so it was thrown away and everything was recaptured at 406d86f3.",
+  "host": "nucbox-wsl (NucBoxEVO-X2), headless Chromium, Playwright 1.61.1. Nothing ran on silver.",
+  "checkout": "~/code/music-dj-tools-wt-autodj-evidence, created with git worktree add --detach at the head. 0 dirty tracked paths. Untracked additions were only 3 evidence files (copies of the vite and playwright configs on ports 5394/8794 with video and a 1280x800 viewport, plus evidence-7903.spec.ts) and their own fixture data dir. Worktree removed after capture. The coordinator's worktree was not touched.",
+  "provenance": "port 5394: vite, cwd .../music-dj-tools-wt-autodj-evidence/apps/webui/frontend. Port 8794: opendj-backend from .../music-dj-tools-wt-autodj-evidence/.venv. See port-owners.txt and provenance.txt.",
+  "command": "pnpm exec playwright test --config tests/e2e/evidence-7903.playwright.config.ts",
+  "url": "http://127.0.0.1:5394/performance",
+  "run": "Thu 30 Oct 2026 07:42-07:43 UTC. 2 passed (39.0 s): the committed tests/e2e/autoplay-next-planner.spec.ts at head, unmodified, and the evidence spec.",
+  "data": "throwaway fixture library built by tests/e2e/support/deckload_fixture.py: webkit-fixture-b-124bpm on deck 1, playing as master; webkit-fixture-a-128bpm on deck 2",
+  "doubles": "THIS IS NOT THE REAL PLANNER. The planner's HTTP answer (/api/v1/dj/transition/plan) and the tracks' beatgrid (120 BPM on the anlz payload) are Playwright route doubles, the same ones the committed spec uses, because the fixture's sine tracks have no grid or phrases to plan from. Real: backend, fixture library, performance IPC, plan runner, fixed-loop featurette, top bar readout and hover card. The planned answer was held back 2.5 s (the fallback answer 1.5 s) only so the brief 'planning' readout stays on screen long enough to record.",
+  "actions": [
+    "load decks 1 and 2, play deck 1, make deck 1 master (IPC dispatch)",
+    "flow 1: click the real >| button (aria-label 'Next transition'); the readout shows 'planning', then 'plan: crossfade 8'; hovering AutoPlay shows ap-next-run with the planned reason",
+    "click >| again to cancel",
+    "flow 2: the planner answers order=null with reason 'nothing eligible'; click >|; the readout shows 'planning', then 'fixed loop'; hovering AutoPlay shows ap-next-run: 'Fixed loop transition, not planned: nothing eligible (1511 ms planning)'"
+  ],
+  "observed_text": {
+    "tracks": "759aa7faf56cc19427b44162e6d1151cd688b926 -> d4693fbd817b2166a5e4848e5a891600d3da90b0",
+    "flow1_planning": "planning",
+    "flow1_readout": "plan: crossfade 8",
+    "flow1_hover": "Planned transition starting at outgoing bar 12. intent smooth: crossfade over 8 bars, M 0.40. Chose from 3 rendered candidates (2517 ms planning). M is the 0..1 transition quality score.",
+    "flow2_readout": "fixed loop",
+    "flow2_hover": "Fixed loop transition, not planned: nothing eligible (1511 ms planning)"
+  },
+  "viewport": "1280x800",
+  "artifacts": {
+    "music-dj-tools-pr7903-406d86f3-performance-1-planning.png": "1ec40d2e6cb561d8d2d33c5c76bc756c1f748f57866afab9bed8ba7e35476a8c",
+    "music-dj-tools-pr7903-406d86f3-performance-2-planned-hover.png": "94d36c1a4ea2cdf53cf121dcc365c52a377499f079dc78e3194d4f230128884b",
+    "music-dj-tools-pr7903-406d86f3-performance-3-fixed-loop-hover.png": "51fb69c76984dd8fe79bccd7a253127e15904f7fe38e78fdf1726187bdd0616a",
+    "music-dj-tools-pr7903-406d86f3-performance-planner-flow.gif": "397b00f6cbb6fe07608dc1d07cac250677a23217519240cfc231de68c43be135",
+    "music-dj-tools-pr7903-406d86f3-performance-planner-flow.mp4": "4b4cc813898d7639b0ce9da422229426ae9fa8203523fda77bfce7e696d82158",
+    "observed.json": "73e379794d95928d03f231937dc42667665fef918aed6df26dd7932e9897c70c",
+    "original-spec-run.webm": "02c7c89f29ade4a552f2cf15a16821916a89ae0043aacff6eebb08ea5d251fa9",
+    "playwright.log": "d29d3d2f1a353c3d4e46912cba881eb5e6c38b699f7483d6c4ffbc017defdeb4",
+    "port-owners.txt": "c9e42145f4654266c615903596aa94525680678cc8425351c4d7682e813d55cd",
+    "provenance.txt": "58dbbc57dcefc5807b18d782e1e8ed1f1da759c20edac9a70c4e7ca0e6a08ded"
+  },
+  "artifact_notes": {
+    "music-dj-tools-pr7903-406d86f3-performance-1-planning.png": "readout 'planning' after the click on >|. The hover card is open because >| sits inside the AutoPlay hover area.",
+    "music-dj-tools-pr7903-406d86f3-performance-2-planned-hover.png": "acceptance flow 1: readout 'plan: crossfade 8'; the hover card gives the planned reason",
+    "music-dj-tools-pr7903-406d86f3-performance-3-fixed-loop-hover.png": "acceptance flow 2: readout 'fixed loop'; the hover card reads 'Fixed loop transition, not planned: nothing eligible'",
+    "music-dj-tools-pr7903-406d86f3-performance-planner-flow.mp4": "H.264, 1280x800, 16.0 s, both flows. The 4.1 s blank lead-in is trimmed; the clip opens on the unarmed state.",
+    "music-dj-tools-pr7903-406d86f3-performance-planner-flow.gif": "960x600, 8 fps, 16 s, 7.8 MB (under GitHub's 10 MB image limit)",
+    "original-spec-run.webm": "raw recording of the committed spec passing at head (driven by dispatch, no hover)",
+    "observed.json": "readout and hover-card text as read from the DOM during the evidence run"
+  },
+  "supplementary_log_not_a_capture": "Fri 30 Oct 2026 (log, not a capture): the real planner on the real engine ran bass_swap_blend for Dies Irae into Lacrimosa, 183 of 183 events fired, and master moved to deck 2. The coordinator reported this. It is not part of this capture and this worker did not verify it.",
+  "limitations": [
+    "The planner's pick and the beatgrid are doubles, so this capture does not show a real planner choice.",
+    "Shot 3 and the second half of the clip also show an 'AutoPlay stopped: no unplayed playlist track fits key +-1 and the Beat Sync BPM range' banner and toast. They come from the regular AutoPlay feature: it is ON in the fixture prefs, and the two-track fixture has no eligible next track. They have nothing to do with the >| flow but are visible.",
+    "No audio (headless).",
+    "Not posted to GitHub and render not checked there; the parent owns that."
+  ]
+}
